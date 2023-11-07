@@ -36,22 +36,28 @@ public class DictionaryModel {
         try (Scanner input = new Scanner(new File("slang.txt"))) {
             while(input.hasNextLine()) {
                 String data = input.nextLine();
-                if (!data.isEmpty()){
+                if (!data.isEmpty() && data.indexOf("`")!=-1){
                     String[] elements = data.split("`");
-                    String[] keys = elements[1].split("\\|");
+                    String[] definitions = elements[1].split("\\| ");
+                    
+                    HashSet<String> defSet = new HashSet<>();
+                    Collections.addAll(defSet, definitions);
 
-                    HashSet<String> setDef = new HashSet<>();
-                    Collections.addAll(setDef, keys);
+                    for (String definition : definitions) {
+                        for (String word : definition.split(" ")) {
+                            HashSet<String> predSet = prediction.get(word);
+                            if (predSet==null) {
+                                predSet = new HashSet<>();
+                            }
+                            predSet.add(elements[0]);
+                            prediction.remove(word);
+                            prediction.put(word, predSet);
+                        }
+                    }
+                
 
-//                    for (String element : keys) {
-//                        prediction.
-//                        prediction.
-//                        prediction.put(element, elements[0]);
-//                    }
-
-                    definition.put(elements[0], setDef);
+                    definition.put(elements[0], defSet);
                 }
-
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
