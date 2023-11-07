@@ -51,12 +51,12 @@ public class DictionaryModel {
                             }
                             predSet.add(elements[0]);
                             prediction.remove(word);
-                            prediction.put(word, predSet);
+                            prediction.put(word.trim(), predSet);
                         }
                     }
                 
 
-                    definition.put(elements[0], defSet);
+                    definition.put(elements[0].trim(), defSet);
                 }
             }
         } catch (FileNotFoundException e) {
@@ -99,5 +99,38 @@ public class DictionaryModel {
 
     public void setHistory(HashSet<String> history) {
         this.history = history;
+    }
+    
+    public HashMap<String, HashSet<String>> getSearchBySlangResult(String key) {
+        HashMap<String, HashSet<String>> res = new HashMap<>();
+        res.put(key, definition.get(key));
+        return res;
+    }
+    
+    public HashMap<String, HashSet<String>> getSearchByDefResult(String sentence) {
+        String[] wordArr = sentence.split(" ");
+//        HashSet<String> slangSet = new HashSet<>();
+        HashSet<String> keySet = new HashSet<>();
+        HashSet<String> slangSet = new HashSet<String>(definition.keySet());
+            
+//            slangSet = Collections.addAll(definition.keySet());
+           
+        
+        for (String word : wordArr) {
+                keySet = prediction.get(word);
+                
+                for (String slang : slangSet) {
+                    if (!keySet.contains(slang)) {
+                        slangSet.remove(slang);
+                }
+            }
+        }
+        
+        HashMap<String, HashSet<String>> res = new HashMap<>();
+        for (String key : slangSet) {
+             res.put(key, definition.get(key));
+        }
+       
+        return res;
     }
 }
