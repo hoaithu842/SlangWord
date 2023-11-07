@@ -109,19 +109,21 @@ public class DictionaryModel {
     
     public HashMap<String, HashSet<String>> getSearchByDefResult(String sentence) {
         String[] wordArr = sentence.split(" ");
-//        HashSet<String> slangSet = new HashSet<>();
+
         HashSet<String> keySet = new HashSet<>();
-        HashSet<String> slangSet = new HashSet<String>(definition.keySet());
-            
-//            slangSet = Collections.addAll(definition.keySet());
-           
-        
+        HashSet<String> slangSet = new HashSet<>();//(definition.keySet());
+        HashSet<String> tempSet = new HashSet<>();
+                       
+        slangSet = prediction.get(wordArr[0]);
         for (String word : wordArr) {
+            if (!word.equals(wordArr[0])) {
                 keySet = prediction.get(word);
-                
-                for (String slang : slangSet) {
+
+                tempSet = (HashSet)slangSet.clone();
+                for (String slang : tempSet) {
                     if (!keySet.contains(slang)) {
                         slangSet.remove(slang);
+                    }
                 }
             }
         }
