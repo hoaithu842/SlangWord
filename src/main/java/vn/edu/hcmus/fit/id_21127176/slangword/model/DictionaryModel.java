@@ -103,7 +103,7 @@ public class DictionaryModel {
     
     public HashMap<String, HashSet<String>> getSearchBySlangResult(String key) {
         HashMap<String, HashSet<String>> res = new HashMap<>();
-        res.put(key, definition.get(key));
+        res.put(key.trim(), definition.get(key));
         return res;
     }
     
@@ -130,7 +130,25 @@ public class DictionaryModel {
         
         HashMap<String, HashSet<String>> res = new HashMap<>();
         for (String key : slangSet) {
-             res.put(key, definition.get(key));
+            res.put(key.trim(), definition.get(key));
+
+            if (definition.get(key).size()>1) {
+                HashSet<String> replaceSet = definition.get(key);
+                tempSet = definition.get(key);
+
+                for (String def : tempSet) {
+                    for (String word : wordArr) {
+                        if (!def.contains(word)) {
+                            replaceSet.remove(def);
+                            break;
+                        }
+                    }
+                }
+
+                res.remove(key);
+                res.put(key.trim(), replaceSet);
+            }
+            
         }
        
         return res;
