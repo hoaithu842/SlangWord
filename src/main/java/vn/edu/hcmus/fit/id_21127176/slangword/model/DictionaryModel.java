@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author USER
@@ -148,9 +150,24 @@ public class DictionaryModel {
                 res.remove(key);
                 res.put(key.trim(), replaceSet);
             }
-            
         }
        
         return res;
+    }
+
+    public boolean deleteSlangDefinition(String key, String value) {
+        HashSet<String> newSetDef = new HashSet<>();
+        newSetDef = definition.get(key);
+
+        if (!definition.containsKey(key) || !newSetDef.contains(value)) {
+            return false;
+        }
+        
+        newSetDef.remove(value);
+        definition.remove(key);
+        if (!newSetDef.isEmpty()) {
+            definition.put(key, newSetDef);
+        }
+        return true;
     }
 }

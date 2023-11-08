@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 import java.util.HashMap;
 import java.util.HashSet;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class DictionaryView extends javax.swing.JFrame {
 
@@ -37,9 +40,9 @@ public class DictionaryView extends javax.swing.JFrame {
         lookUpDefRadioButton = new javax.swing.JRadioButton();
         searchButton = new javax.swing.JButton();
         dictionaryTitleLabel = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        slangDisplayTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        defDisplayTextArea = new javax.swing.JTextArea();
         slangDisplayLabel = new javax.swing.JLabel();
         defDisplayLabel = new javax.swing.JLabel();
         insertButton = new javax.swing.JButton();
@@ -94,11 +97,9 @@ public class DictionaryView extends javax.swing.JFrame {
         dictionaryTitleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         dictionaryTitleLabel.setText("Slang Word Dictionary");
 
-        jTextField1.setText("jTextField1");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        defDisplayTextArea.setColumns(20);
+        defDisplayTextArea.setRows(5);
+        jScrollPane1.setViewportView(defDisplayTextArea);
 
         slangDisplayLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         slangDisplayLabel.setText("Slang");
@@ -141,7 +142,7 @@ public class DictionaryView extends javax.swing.JFrame {
                             .addGroup(lookUpPanelLayout.createSequentialGroup()
                                 .addComponent(slangDisplayLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(slangDisplayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(lookUpPanelLayout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,7 +174,7 @@ public class DictionaryView extends javax.swing.JFrame {
                         .addGap(9, 9, 9)
                         .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(slangDisplayLabel)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(slangDisplayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(defDisplayLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -278,23 +279,55 @@ public class DictionaryView extends javax.swing.JFrame {
         return searchTextField;
     }
     
+    public javax.swing.JButton getDeleteButton() {
+        return deleteButton;
+    }
+    
+    public javax.swing.JTextField getSlangDisplayTextField() {
+        return slangDisplayTextField;
+    }
+    
+    public javax.swing.JTextArea getDefDisplayTextArea() {
+        return defDisplayTextArea;
+    }
+    
+    public javax.swing.JTable getSearchResultTable() {
+        return searchResultTable;
+    }
     
     /*
         Event
     */
-    
     public void addSearchButtonListener(ActionListener listenForClick) {
         searchButton.addActionListener(listenForClick);
     }
+    
+    public void addDeleteButtonListener(ActionListener listenForClick) {
+        deleteButton.addActionListener(listenForClick);
+    }
+
+    public void addRowTableListener(ListSelectionListener listenForClick) {
+        ListSelectionModel listSelectionModel = searchResultTable.getSelectionModel();
+//        listSelectionModel.addListSelectionListener(new ListSelectionListener(){
+//            @Override
+//            public void valueChanged(ListSelectionEvent event) {
+//                int rows[] = searchResultTable.getSelectedRows();
+//                int cols[] = searchResultTable.getSelectedColumns();
+//                
+//                String code = String.valueOf(searchResultTable.getValueAt(rows[0], 0));
+//                searchTextField.setText(code);
+//            }
+//        });
+        listSelectionModel.addListSelectionListener(listenForClick);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel defDisplayLabel;
+    private javax.swing.JTextArea defDisplayTextArea;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel dictionaryTitleLabel;
     private javax.swing.JButton editButton;
     private javax.swing.JButton insertButton;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.ButtonGroup lookUpButtonGroup;
     private javax.swing.JRadioButton lookUpDefRadioButton;
     private javax.swing.JPanel lookUpPanel;
@@ -306,6 +339,7 @@ public class DictionaryView extends javax.swing.JFrame {
     private javax.swing.JTable searchResultTable;
     private javax.swing.JTextField searchTextField;
     private javax.swing.JLabel slangDisplayLabel;
+    private javax.swing.JTextField slangDisplayTextField;
     private javax.swing.JTabbedPane tasksTabbedPane;
     private javax.swing.JPanel todaySlangPanel;
     // End of variables declaration//GEN-END:variables
@@ -322,5 +356,21 @@ public class DictionaryView extends javax.swing.JFrame {
                 defaultTableModel.addRow(new Object[] {key, def});
             }
           }
+    }
+    
+    public int confirmDecision(String message) {
+        return javax.swing.JOptionPane.showConfirmDialog(this, message);
+    }
+    
+    public void displayMessage(String message) {
+        javax.swing.JOptionPane.showMessageDialog(this, message);
+    }
+    
+    public void rowTableOnClick() {
+        int rows[] = searchResultTable.getSelectedRows();
+        String slang = String.valueOf( searchResultTable.getValueAt(rows[0], 0));
+        String def = String.valueOf(searchResultTable.getValueAt(rows[0], 1));
+        slangDisplayTextField.setText(slang);
+        defDisplayTextArea.setText(def);
     }
 }
