@@ -9,7 +9,17 @@ import java.util.Random;
  * @author USER
  */
 public class SlangQuizModel {
-
+    private DictionaryModel theModel;
+    private String question;
+    private int solution;
+    private List option;
+    
+    public SlangQuizModel(DictionaryModel theModel) {
+        this.theModel = theModel;
+        option = new ArrayList();
+        generateQuiz();
+    }
+    
     public String getQuestion() {
         return question;
     }
@@ -20,16 +30,6 @@ public class SlangQuizModel {
 
     public List getOption() {
         return option;
-    }
-    private DictionaryModel theModel;
-    private String question;
-    private int solution;
-    private List option;
-    
-    public SlangQuizModel(DictionaryModel theModel) {
-        this.theModel = theModel;
-        option = new ArrayList();
-        generateQuiz();
     }
     
     public void generateQuiz() {

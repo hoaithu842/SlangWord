@@ -245,7 +245,6 @@ public class DictionaryView extends javax.swing.JFrame {
         slangOptionPanel.setLayout(new java.awt.GridLayout(2, 2));
 
         slangOptionButtonGroup.add(slangOptionRadioButton1);
-        slangOptionRadioButton1.setSelected(true);
         slangOptionRadioButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         slangOptionRadioButton1.setMargin(new java.awt.Insets(50, 50, 50, 50));
         slangOptionPanel.add(slangOptionRadioButton1);
@@ -344,7 +343,7 @@ public class DictionaryView extends javax.swing.JFrame {
         });
     }
     /*
-        Getters - Setters
+        Getters
     */
     public javax.swing.JRadioButton getLookUpSlangRadioButton() {
         return lookUpSlangRadioButton;
@@ -370,6 +369,22 @@ public class DictionaryView extends javax.swing.JFrame {
         return searchResultTable;
     }
     
+    public int getSlangOptionSelected() {
+        if (slangOptionRadioButton1.isSelected()){
+            return 0;
+        }
+        if (slangOptionRadioButton2.isSelected()){
+            return 1;
+        }
+        if (slangOptionRadioButton3.isSelected()){
+            return 2;
+        }
+        if (slangOptionRadioButton4.isSelected()){
+            return 3;
+        }
+        return -1;
+    }
+    
     /*
         Event
     */
@@ -386,7 +401,7 @@ public class DictionaryView extends javax.swing.JFrame {
 //        listSelectionModel.addListSelectionListener(listenForClick);
 //    }
     
-        public final void addRowTableListener() {
+        public void addRowTableListener() {
         ListSelectionModel listSelectionModel = searchResultTable.getSelectionModel();
         listSelectionModel.addListSelectionListener(new ListSelectionListener(){
             @Override
@@ -401,6 +416,10 @@ public class DictionaryView extends javax.swing.JFrame {
         });
 //        listSelectionModel.addListSelectionListener(listenForClick);
     }
+        
+        public void addSlangQuizSubmitButtonListener(ActionListener listenForClick) {
+            slangQuizSubmitButton.addActionListener(listenForClick);
+        }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel defDisplayLabel;
@@ -445,6 +464,7 @@ public class DictionaryView extends javax.swing.JFrame {
     
     public void setSlangQuiz(SlangQuizModel theSlangModel) {
         slangQuizLabel.setText(theSlangModel.getQuestion());
+        slangOptionButtonGroup.clearSelection();
         slangOptionRadioButton1.setText((String)theSlangModel.getOption().get(0));
         slangOptionRadioButton2.setText((String)theSlangModel.getOption().get(1));
         slangOptionRadioButton3.setText((String)theSlangModel.getOption().get(2));

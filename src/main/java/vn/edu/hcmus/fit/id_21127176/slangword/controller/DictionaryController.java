@@ -30,6 +30,7 @@ public class DictionaryController {
         
         this.theView.addSearchButtonListener(new SearchButtonListener());
         this.theView.addDeleteButtonListener(new DeleteButtonListener());
+        this.theView.addSlangQuizSubmitButtonListener(new SlangQuizSubmitButtonListener());
     }
     
     class SearchButtonListener implements ActionListener {
@@ -71,12 +72,23 @@ public class DictionaryController {
         }
     }
     
-    
-        
-    
-//    class SlangQuizSubmitButtonListener implements ActionListener {
-//        @Override
-//        public void actionPerformed(ActionEvent event) {
-//        }
-//    }
+    class SlangQuizSubmitButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            int selectedOption = theView.getSlangOptionSelected();
+            
+            if (selectedOption == -1) {
+                theView.displayMessage("You must select an option!");
+            } else {
+                if (theSlangQuizModel.getSolution() == selectedOption) {
+                    theView.displayMessage("Correct Answer!");
+                } else {
+                    theView.displayMessage("Incorret! The answer is: " + theSlangQuizModel.getOption().get(theSlangQuizModel.getSolution()));
+                }
+                theSlangQuizModel.generateQuiz();
+                theView.setSlangQuiz(theSlangQuizModel);
+            }
+            
+        }
+    }
 }
