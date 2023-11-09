@@ -4,6 +4,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,8 +61,6 @@ public class DictionaryModel {
                             prediction.put(word.trim(), predSet);
                         }
                     }
-                
-
                     definition.put(elements[0].trim(), defSet);
                 }
             }
@@ -107,36 +106,55 @@ public class DictionaryModel {
         this.history = history;
     }
     
+    public boolean wordExisted(String key) {
+        return prediction.containsKey(key);
+    }
+    
+    public boolean slangExisted(String key) {
+        return definition.containsKey(key);
+    }
+    
     public HashMap<String, HashSet<String>> getSearchBySlangResult(String key) {
         HashMap<String, HashSet<String>> res = new HashMap<>();
-        res.put(key.trim(), definition.get(key));
+        if (slangExisted(key.trim())){
+            res.put(key.trim(), definition.get(key.trim()));
+        }
         return res;
     }
     
     public HashMap<String, HashSet<String>> getSearchByDefResult(String sentence) {
-        String[] wordArr = sentence.split(" ");
+        String[] wordArr = sentence.trim().split(" ");
+        Arrays.parallelSetAll(wordArr, (i) -> wordArr[i].trim());
 
-        HashSet<String> keySet = new HashSet<>();
-        HashSet<String> slangSet = new HashSet<>();//(definition.keySet());
-        HashSet<String> tempSet = new HashSet<>();
-                       
-        slangSet = prediction.get(wordArr[0]);
+        HashMap<String, HashSet<String>> res = new HashMap<>();
+        HashSet<String> slangSet;
+        HashSet<String> rootSlangSet;
+        HashSet<String> tempSet;
+        
+        if (!wordExisted(wordArr[0])) {
+            return res;
+        }
+        
+        rootSlangSet = prediction.get(wordArr[0]);
         for (String word : wordArr) {
-            if (!word.equals(wordArr[0])) {
-                keySet = prediction.get(word);
-
-                tempSet = (HashSet)slangSet.clone();
+            if (!word.trim().equals(wordArr[0]) && !word.equals("")) {
+                if (!wordExisted(word)) {
+                    return res;
+                }
+                
+                slangSet = prediction.get(word);
+                tempSet = (HashSet)rootSlangSet.clone();
                 for (String slang : tempSet) {
-                    if (!keySet.contains(slang)) {
-                        slangSet.remove(slang);
+                    if (!slangSet.contains(slang)) {
+                        rootSlangSet.remove(slang);
                     }
                 }
             }
         }
         
-        HashMap<String, HashSet<String>> res = new HashMap<>();
-        for (String key : slangSet) {
-            res.put(key.trim(), definition.get(key));
+        
+        for (String key : rootSlangSet) {
+            res.put(key, definition.get(key));
 
             if (definition.get(key).size()>1) {
                 HashSet<String> replaceSet = definition.get(key);
@@ -144,7 +162,7 @@ public class DictionaryModel {
 
                 for (String def : tempSet) {
                     for (String word : wordArr) {
-                        if (!def.contains(word)) {
+                        if (!def.contains(word) && !word.equals("")) {
                             replaceSet.remove(def);
                             break;
                         }
@@ -152,18 +170,11 @@ public class DictionaryModel {
                 }
 
                 res.remove(key);
-                res.put(key.trim(), replaceSet);
+                res.put(key, replaceSet);
             }
         }
        
         return res;
-    }
-
-    public boolean slangExisted(String key) {
-        if (!definition.containsKey(key)) {
-            return false;
-        }
-        return true;
     }
     
     public void addNewSlangDefinition(String key, String value) {
@@ -207,6 +218,14 @@ public class DictionaryModel {
     }
     
     public List getTodaySlang() {
+        if (definition.isEmpty()) {
+            List<String> tmpList;
+            tmpList = new ArrayList<>();
+            tmpList.add("null");
+            tmpList.add("null");
+            return tmpList;
+        }
+        
         LocalDate startDate = LocalDate.parse("2023-11-01");
         LocalDate curDate = LocalDate.now();
         
