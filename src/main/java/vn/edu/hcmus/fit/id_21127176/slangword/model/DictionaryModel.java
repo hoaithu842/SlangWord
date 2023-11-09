@@ -1,9 +1,13 @@
 package vn.edu.hcmus.fit.id_21127176.slangword.model;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -169,5 +173,27 @@ public class DictionaryModel {
             definition.put(key, newSetDef);
         }
         return true;
+    }
+    
+    public List getTodaySlang() {
+        LocalDate startDate = LocalDate.parse("2023-11-01");
+        LocalDate curDate = LocalDate.now();
+        
+        int period = Period.between(startDate, curDate).getDays();
+        if (period > definition.size()) {
+            period = 0;
+            startDate = curDate;
+        }
+        
+        List<String> keyList = new ArrayList<>(definition.keySet());
+        String slang = keyList.get(period);
+        
+        List<String> defList = new ArrayList<>(definition.get(slang));
+        String def = defList.get(0);
+        
+        List<String> todaySlang = new ArrayList();
+        todaySlang.add(slang);
+        todaySlang.add(def);
+        return todaySlang;
     }
 }

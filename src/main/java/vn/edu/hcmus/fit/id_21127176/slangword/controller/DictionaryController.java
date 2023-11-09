@@ -8,8 +8,6 @@ import vn.edu.hcmus.fit.id_21127176.slangword.model.DictionaryModel;
 import vn.edu.hcmus.fit.id_21127176.slangword.view.DictionaryView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 
 public class DictionaryController {
@@ -21,10 +19,10 @@ public class DictionaryController {
         this.theModel = theModel;
         
         this.theView.displayDictionary(theModel.getDefinition());
+        this.theView.setTodaySlang(theModel.getTodaySlang());
         
         this.theView.addSearchButtonListener(new SearchButtonListener());
         this.theView.addDeleteButtonListener(new DeleteButtonListener());
-        this.theView.addRowTableListener(new RowTableListener());
     }
     
     class SearchButtonListener implements ActionListener {
@@ -66,10 +64,5 @@ public class DictionaryController {
         }
     }
     
-    class RowTableListener implements ListSelectionListener {
-        @Override
-        public void valueChanged(ListSelectionEvent event) {
-             theView.rowTableOnClick();
-        }
-    }
+    
 }

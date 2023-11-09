@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -19,6 +20,7 @@ public class DictionaryView extends javax.swing.JFrame {
      */
     public DictionaryView() {
         initComponents();
+        addRowTableListener();
     }
 
     /**
@@ -49,6 +51,9 @@ public class DictionaryView extends javax.swing.JFrame {
         editButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         todaySlangPanel = new javax.swing.JPanel();
+        todaySlangWordLabel = new javax.swing.JLabel();
+        todaySlangLabel = new javax.swing.JLabel();
+        todaySlangDefTextField = new javax.swing.JTextField();
         quizGamesPanel = new javax.swing.JPanel();
         searchHistoryPanel = new javax.swing.JPanel();
 
@@ -82,6 +87,7 @@ public class DictionaryView extends javax.swing.JFrame {
         searchResultTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         searchResultTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         searchResultTable.setShowGrid(true);
+        searchResultTable.setVerifyInputWhenFocusTarget(false);
         searchResultScrollPane.setViewportView(searchResultTable);
 
         lookUpButtonGroup.add(lookUpSlangRadioButton);
@@ -102,9 +108,11 @@ public class DictionaryView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(defDisplayTextArea);
 
         slangDisplayLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        slangDisplayLabel.setLabelFor(slangDisplayTextField);
         slangDisplayLabel.setText("Slang");
 
         defDisplayLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        defDisplayLabel.setLabelFor(defDisplayTextArea);
         defDisplayLabel.setText("Definition");
 
         insertButton.setText("Insert");
@@ -112,6 +120,25 @@ public class DictionaryView extends javax.swing.JFrame {
         editButton.setText("Edit");
 
         deleteButton.setText("Delete");
+
+        todaySlangPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        todaySlangPanel.setLayout(new java.awt.BorderLayout());
+
+        todaySlangWordLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        todaySlangWordLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        todaySlangPanel.add(todaySlangWordLabel, java.awt.BorderLayout.CENTER);
+
+        todaySlangLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        todaySlangLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        todaySlangLabel.setText("Today's Slang");
+        todaySlangLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        todaySlangLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        todaySlangPanel.add(todaySlangLabel, java.awt.BorderLayout.PAGE_START);
+
+        todaySlangDefTextField.setEditable(false);
+        todaySlangDefTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        todaySlangDefTextField.setBorder(null);
+        todaySlangPanel.add(todaySlangDefTextField, java.awt.BorderLayout.PAGE_END);
 
         javax.swing.GroupLayout lookUpPanelLayout = new javax.swing.GroupLayout(lookUpPanel);
         lookUpPanel.setLayout(lookUpPanelLayout);
@@ -145,14 +172,15 @@ public class DictionaryView extends javax.swing.JFrame {
                                 .addComponent(slangDisplayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(lookUpPanelLayout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(todaySlangPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1)
                                     .addGroup(lookUpPanelLayout.createSequentialGroup()
                                         .addComponent(insertButton)
-                                        .addGap(18, 18, 18)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(editButton)
                                         .addGap(18, 18, 18)
-                                        .addComponent(deleteButton))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(deleteButton)))))
                         .addContainerGap(52, Short.MAX_VALUE))))
         );
         lookUpPanelLayout.setVerticalGroup(
@@ -183,25 +211,14 @@ public class DictionaryView extends javax.swing.JFrame {
                         .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(insertButton)
                             .addComponent(editButton)
-                            .addComponent(deleteButton)))
+                            .addComponent(deleteButton))
+                        .addGap(50, 50, 50)
+                        .addComponent(todaySlangPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(searchResultScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tasksTabbedPane.addTab("Look Up", lookUpPanel);
-
-        javax.swing.GroupLayout todaySlangPanelLayout = new javax.swing.GroupLayout(todaySlangPanel);
-        todaySlangPanel.setLayout(todaySlangPanelLayout);
-        todaySlangPanelLayout.setHorizontalGroup(
-            todaySlangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 805, Short.MAX_VALUE)
-        );
-        todaySlangPanelLayout.setVerticalGroup(
-            todaySlangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
-        );
-
-        tasksTabbedPane.addTab("Slang Word Of The Day", todaySlangPanel);
+        tasksTabbedPane.addTab("Look Up", new javax.swing.ImageIcon(getClass().getResource("/searchIcon.png")), lookUpPanel); // NOI18N
 
         javax.swing.GroupLayout quizGamesPanelLayout = new javax.swing.GroupLayout(quizGamesPanel);
         quizGamesPanel.setLayout(quizGamesPanelLayout);
@@ -211,7 +228,7 @@ public class DictionaryView extends javax.swing.JFrame {
         );
         quizGamesPanelLayout.setVerticalGroup(
             quizGamesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
+            .addGap(0, 597, Short.MAX_VALUE)
         );
 
         tasksTabbedPane.addTab("Quiz Games", quizGamesPanel);
@@ -224,7 +241,7 @@ public class DictionaryView extends javax.swing.JFrame {
         );
         searchHistoryPanelLayout.setVerticalGroup(
             searchHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
+            .addGap(0, 597, Short.MAX_VALUE)
         );
 
         tasksTabbedPane.addTab("Search History", searchHistoryPanel);
@@ -306,20 +323,27 @@ public class DictionaryView extends javax.swing.JFrame {
         deleteButton.addActionListener(listenForClick);
     }
 
-    public void addRowTableListener(ListSelectionListener listenForClick) {
+//    public void addRowTableListener(ListSelectionListener listenForClick) {
+//        ListSelectionModel listSelectionModel = searchResultTable.getSelectionModel();
+//        listSelectionModel.addListSelectionListener(listenForClick);
+//    }
+    
+        public final void addRowTableListener() {
         ListSelectionModel listSelectionModel = searchResultTable.getSelectionModel();
-//        listSelectionModel.addListSelectionListener(new ListSelectionListener(){
-//            @Override
-//            public void valueChanged(ListSelectionEvent event) {
+        listSelectionModel.addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
 //                int rows[] = searchResultTable.getSelectedRows();
 //                int cols[] = searchResultTable.getSelectedColumns();
 //                
 //                String code = String.valueOf(searchResultTable.getValueAt(rows[0], 0));
 //                searchTextField.setText(code);
-//            }
-//        });
-        listSelectionModel.addListSelectionListener(listenForClick);
+                    rowTableOnClick();
+            }
+        });
+//        listSelectionModel.addListSelectionListener(listenForClick);
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel defDisplayLabel;
     private javax.swing.JTextArea defDisplayTextArea;
@@ -341,9 +365,16 @@ public class DictionaryView extends javax.swing.JFrame {
     private javax.swing.JLabel slangDisplayLabel;
     private javax.swing.JTextField slangDisplayTextField;
     private javax.swing.JTabbedPane tasksTabbedPane;
+    private javax.swing.JTextField todaySlangDefTextField;
+    private javax.swing.JLabel todaySlangLabel;
     private javax.swing.JPanel todaySlangPanel;
+    private javax.swing.JLabel todaySlangWordLabel;
     // End of variables declaration//GEN-END:variables
-
+    
+    public void setTodaySlang(List<String> todaySlang) {
+        todaySlangWordLabel.setText(todaySlang.get(0));
+        todaySlangDefTextField.setText(todaySlang.get(1));
+    }
     public void displayDictionary(HashMap<String, HashSet<String>> data) {
         DefaultTableModel defaultTableModel = new DefaultTableModel();
         searchResultTable.setModel(defaultTableModel);
@@ -372,5 +403,12 @@ public class DictionaryView extends javax.swing.JFrame {
         String def = String.valueOf(searchResultTable.getValueAt(rows[0], 1));
         slangDisplayTextField.setText(slang);
         defDisplayTextArea.setText(def);
+    }
+    
+    class RowTableListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent event) {
+             rowTableOnClick();
+        }
     }
 }
