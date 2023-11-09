@@ -6,17 +6,23 @@ package vn.edu.hcmus.fit.id_21127176.slangword.controller;
  */
 import vn.edu.hcmus.fit.id_21127176.slangword.model.DictionaryModel;
 import vn.edu.hcmus.fit.id_21127176.slangword.view.DictionaryView;
+import vn.edu.hcmus.fit.id_21127176.slangword.model.SlangQuizModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 
 
 public class DictionaryController {
     private DictionaryView theView;
     private DictionaryModel theModel;
+    private SlangQuizModel theSlangQuizModel;
     
     public DictionaryController(DictionaryView theView, DictionaryModel theModel) {
         this.theView = theView;
         this.theModel = theModel;
+        this.theSlangQuizModel = new SlangQuizModel(theModel);
         
         this.theView.displayDictionary(theModel.getDefinition());
         this.theView.setTodaySlang(theModel.getTodaySlang());
@@ -65,4 +71,11 @@ public class DictionaryController {
     }
     
     
+        
+    
+//    class SlangQuizSubmitButtonListener implements ActionListener {
+//        @Override
+//        public void actionPerformed(ActionEvent event) {
+//        }
+//    }
 }

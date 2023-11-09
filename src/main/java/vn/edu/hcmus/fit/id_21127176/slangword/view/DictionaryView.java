@@ -31,8 +31,10 @@ public class DictionaryView extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         lookUpButtonGroup = new javax.swing.ButtonGroup();
+        slangOptionButtonGroup = new javax.swing.ButtonGroup();
         tasksTabbedPane = new javax.swing.JTabbedPane();
         lookUpPanel = new javax.swing.JPanel();
         searchResultScrollPane = new javax.swing.JScrollPane();
@@ -54,7 +56,15 @@ public class DictionaryView extends javax.swing.JFrame {
         todaySlangWordLabel = new javax.swing.JLabel();
         todaySlangLabel = new javax.swing.JLabel();
         todaySlangDefTextField = new javax.swing.JTextField();
-        quizGamesPanel = new javax.swing.JPanel();
+        slangQuizPanel = new javax.swing.JPanel();
+        slangQuizLabel = new javax.swing.JLabel();
+        slangOptionPanel = new javax.swing.JPanel();
+        slangOptionRadioButton1 = new javax.swing.JRadioButton();
+        slangOptionRadioButton2 = new javax.swing.JRadioButton();
+        slangOptionRadioButton3 = new javax.swing.JRadioButton();
+        slangOptionRadioButton4 = new javax.swing.JRadioButton();
+        slangQuizSubmitButton = new javax.swing.JButton();
+        defQuizPanel = new javax.swing.JPanel();
         searchHistoryPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -220,18 +230,61 @@ public class DictionaryView extends javax.swing.JFrame {
 
         tasksTabbedPane.addTab("Look Up", new javax.swing.ImageIcon(getClass().getResource("/searchIcon.png")), lookUpPanel); // NOI18N
 
-        javax.swing.GroupLayout quizGamesPanelLayout = new javax.swing.GroupLayout(quizGamesPanel);
-        quizGamesPanel.setLayout(quizGamesPanelLayout);
-        quizGamesPanelLayout.setHorizontalGroup(
-            quizGamesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        slangQuizPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                slangQuizPanelMouseClicked(evt);
+            }
+        });
+        slangQuizPanel.setLayout(new java.awt.BorderLayout());
+
+        slangQuizLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        slangQuizLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        slangQuizPanel.add(slangQuizLabel, java.awt.BorderLayout.PAGE_START);
+
+        slangOptionPanel.setLayout(new java.awt.GridLayout(2, 2));
+
+        slangOptionButtonGroup.add(slangOptionRadioButton1);
+        slangOptionRadioButton1.setSelected(true);
+        slangOptionRadioButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        slangOptionRadioButton1.setMargin(new java.awt.Insets(50, 50, 50, 50));
+        slangOptionPanel.add(slangOptionRadioButton1);
+
+        slangOptionButtonGroup.add(slangOptionRadioButton2);
+        slangOptionRadioButton2.setMargin(new java.awt.Insets(50, 50, 50, 50));
+        slangOptionPanel.add(slangOptionRadioButton2);
+
+        slangOptionButtonGroup.add(slangOptionRadioButton3);
+        slangOptionRadioButton3.setMargin(new java.awt.Insets(50, 50, 50, 50));
+        slangOptionPanel.add(slangOptionRadioButton3);
+
+        slangOptionButtonGroup.add(slangOptionRadioButton4);
+        slangOptionRadioButton4.setMargin(new java.awt.Insets(50, 50, 50, 0));
+        slangOptionRadioButton4.setMaximumSize(new java.awt.Dimension(197, 121));
+        slangOptionRadioButton4.setMinimumSize(new java.awt.Dimension(197, 121));
+        slangOptionPanel.add(slangOptionRadioButton4);
+
+        slangQuizPanel.add(slangOptionPanel, java.awt.BorderLayout.CENTER);
+
+        slangQuizSubmitButton.setText("Submit");
+        slangQuizSubmitButton.setMaximumSize(new java.awt.Dimension(50, 25));
+        slangQuizSubmitButton.setMinimumSize(new java.awt.Dimension(50, 25));
+        slangQuizSubmitButton.setPreferredSize(new java.awt.Dimension(50, 25));
+        slangQuizPanel.add(slangQuizSubmitButton, java.awt.BorderLayout.PAGE_END);
+
+        tasksTabbedPane.addTab("Slang Guessing Quiz", slangQuizPanel);
+
+        javax.swing.GroupLayout defQuizPanelLayout = new javax.swing.GroupLayout(defQuizPanel);
+        defQuizPanel.setLayout(defQuizPanelLayout);
+        defQuizPanelLayout.setHorizontalGroup(
+            defQuizPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 805, Short.MAX_VALUE)
         );
-        quizGamesPanelLayout.setVerticalGroup(
-            quizGamesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        defQuizPanelLayout.setVerticalGroup(
+            defQuizPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 597, Short.MAX_VALUE)
         );
 
-        tasksTabbedPane.addTab("Quiz Games", quizGamesPanel);
+        tasksTabbedPane.addTab("Definition Guessing Quiz", defQuizPanel);
 
         javax.swing.GroupLayout searchHistoryPanelLayout = new javax.swing.GroupLayout(searchHistoryPanel);
         searchHistoryPanel.setLayout(searchHistoryPanelLayout);
@@ -250,6 +303,10 @@ public class DictionaryView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void slangQuizPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_slangQuizPanelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_slangQuizPanelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -347,6 +404,7 @@ public class DictionaryView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel defDisplayLabel;
     private javax.swing.JTextArea defDisplayTextArea;
+    private javax.swing.JPanel defQuizPanel;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel dictionaryTitleLabel;
     private javax.swing.JButton editButton;
@@ -356,7 +414,6 @@ public class DictionaryView extends javax.swing.JFrame {
     private javax.swing.JRadioButton lookUpDefRadioButton;
     private javax.swing.JPanel lookUpPanel;
     private javax.swing.JRadioButton lookUpSlangRadioButton;
-    private javax.swing.JPanel quizGamesPanel;
     private javax.swing.JButton searchButton;
     private javax.swing.JPanel searchHistoryPanel;
     private javax.swing.JScrollPane searchResultScrollPane;
@@ -364,6 +421,15 @@ public class DictionaryView extends javax.swing.JFrame {
     private javax.swing.JTextField searchTextField;
     private javax.swing.JLabel slangDisplayLabel;
     private javax.swing.JTextField slangDisplayTextField;
+    private javax.swing.ButtonGroup slangOptionButtonGroup;
+    private javax.swing.JPanel slangOptionPanel;
+    private javax.swing.JRadioButton slangOptionRadioButton1;
+    private javax.swing.JRadioButton slangOptionRadioButton2;
+    private javax.swing.JRadioButton slangOptionRadioButton3;
+    private javax.swing.JRadioButton slangOptionRadioButton4;
+    private javax.swing.JLabel slangQuizLabel;
+    private javax.swing.JPanel slangQuizPanel;
+    private javax.swing.JButton slangQuizSubmitButton;
     private javax.swing.JTabbedPane tasksTabbedPane;
     private javax.swing.JTextField todaySlangDefTextField;
     private javax.swing.JLabel todaySlangLabel;
@@ -375,6 +441,11 @@ public class DictionaryView extends javax.swing.JFrame {
         todaySlangWordLabel.setText(todaySlang.get(0));
         todaySlangDefTextField.setText(todaySlang.get(1));
     }
+    
+    public void displaySlangQuiz() {
+        
+    }
+    
     public void displayDictionary(HashMap<String, HashSet<String>> data) {
         DefaultTableModel defaultTableModel = new DefaultTableModel();
         searchResultTable.setModel(defaultTableModel);
@@ -405,10 +476,10 @@ public class DictionaryView extends javax.swing.JFrame {
         defDisplayTextArea.setText(def);
     }
     
-    class RowTableListener implements ListSelectionListener {
-        @Override
-        public void valueChanged(ListSelectionEvent event) {
-             rowTableOnClick();
-        }
-    }
+//    class RowTableListener implements ListSelectionListener {
+//        @Override
+//        public void valueChanged(ListSelectionEvent event) {
+//             rowTableOnClick();
+//        }
+//    }
 }

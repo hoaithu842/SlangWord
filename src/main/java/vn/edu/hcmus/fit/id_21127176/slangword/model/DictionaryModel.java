@@ -196,4 +196,8 @@ public class DictionaryModel {
         todaySlang.add(def);
         return todaySlang;
     }
+    
+    public void displaySlangQuiz() {
+        
+    }
 }
