@@ -159,19 +159,50 @@ public class DictionaryModel {
         return res;
     }
 
-    public boolean deleteSlangDefinition(String key, String value) {
+    public boolean slangExisted(String key) {
+        if (!definition.containsKey(key)) {
+            return false;
+        }
+        return true;
+    }
+    
+    public void addNewSlangDefinition(String key, String value) {
+        definition.remove(key);
         HashSet<String> newSetDef = new HashSet<>();
-        newSetDef = definition.get(key);
-
-        if (!definition.containsKey(key) || !newSetDef.contains(value)) {
+        newSetDef.add(value);
+        definition.put(key, newSetDef);
+    }
+    
+    public void duplicateSlangDefinition(String key, String value) {
+        HashSet<String> newSetDef = definition.get(key);
+        definition.remove(key);
+        newSetDef.add(value);
+        definition.put(key, newSetDef);
+    }
+    
+    public boolean deleteSlangDefinition(String key, String value) {
+        if (!definition.containsKey(key)) {
             return false;
         }
         
-        newSetDef.remove(value);
+        HashSet<String> newSetDef = definition.get(key);
+         if (!newSetDef.contains(value)){
+             return false;
+         }
+        
         definition.remove(key);
+        newSetDef.remove(value);
         if (!newSetDef.isEmpty()) {
             definition.put(key, newSetDef);
         }
+        return true;
+    }
+    
+    public boolean editSlangDefinition(String srcKey, String dstKey, String srcValue, String destValue) {
+        if (!deleteSlangDefinition(srcKey, srcValue)) {
+            return false;
+        }
+        addNewSlangDefinition(dstKey, destValue);
         return true;
     }
     
