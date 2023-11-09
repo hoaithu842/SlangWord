@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import vn.edu.hcmus.fit.id_21127176.slangword.model.SlangQuizModel;
 
 public class DictionaryView extends javax.swing.JFrame {
 
@@ -442,8 +443,12 @@ public class DictionaryView extends javax.swing.JFrame {
         todaySlangDefTextField.setText(todaySlang.get(1));
     }
     
-    public void displaySlangQuiz() {
-        
+    public void setSlangQuiz(SlangQuizModel theSlangModel) {
+        slangQuizLabel.setText(theSlangModel.getQuestion());
+        slangOptionRadioButton1.setText((String)theSlangModel.getOption().get(0));
+        slangOptionRadioButton2.setText((String)theSlangModel.getOption().get(1));
+        slangOptionRadioButton3.setText((String)theSlangModel.getOption().get(2));
+        slangOptionRadioButton4.setText((String)theSlangModel.getOption().get(3));
     }
     
     public void displayDictionary(HashMap<String, HashSet<String>> data) {

@@ -9,6 +9,18 @@ import java.util.Random;
  * @author USER
  */
 public class SlangQuizModel {
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public int getSolution() {
+        return solution;
+    }
+
+    public List getOption() {
+        return option;
+    }
     private DictionaryModel theModel;
     private String question;
     private int solution;
@@ -16,6 +28,7 @@ public class SlangQuizModel {
     
     public SlangQuizModel(DictionaryModel theModel) {
         this.theModel = theModel;
+        option = new ArrayList();
         generateQuiz();
     }
     
@@ -31,5 +44,13 @@ public class SlangQuizModel {
             rndNum.add(num);
         }
         
+        solution = random.nextInt(4);
+        List<String> keyList = new ArrayList<>(theModel.getDefinition().keySet());
+        question = keyList.get((int)rndNum.get(solution));
+        
+        option.clear();
+        for (int i=0; i<4; i++) {
+            option.add(theModel.getDefinition().get(keyList.get((int)rndNum.get(i))).stream().findFirst().get());
+        }
     }
 }

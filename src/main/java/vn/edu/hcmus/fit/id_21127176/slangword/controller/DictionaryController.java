@@ -26,6 +26,7 @@ public class DictionaryController {
         
         this.theView.displayDictionary(theModel.getDefinition());
         this.theView.setTodaySlang(theModel.getTodaySlang());
+        this.theView.setSlangQuiz(theSlangQuizModel);
         
         this.theView.addSearchButtonListener(new SearchButtonListener());
         this.theView.addDeleteButtonListener(new DeleteButtonListener());
