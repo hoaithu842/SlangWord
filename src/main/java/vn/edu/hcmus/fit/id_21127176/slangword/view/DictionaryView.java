@@ -12,7 +12,7 @@ import java.util.List;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import vn.edu.hcmus.fit.id_21127176.slangword.model.SlangQuizModel;
+import vn.edu.hcmus.fit.id_21127176.slangword.model.QuizModel;
 
 public class DictionaryView extends javax.swing.JFrame {
 
@@ -36,6 +36,7 @@ public class DictionaryView extends javax.swing.JFrame {
 
         lookUpButtonGroup = new javax.swing.ButtonGroup();
         slangOptionButtonGroup = new javax.swing.ButtonGroup();
+        defOptionButtonGroup = new javax.swing.ButtonGroup();
         tasksTabbedPane = new javax.swing.JTabbedPane();
         lookUpPanel = new javax.swing.JPanel();
         searchResultScrollPane = new javax.swing.JScrollPane();
@@ -66,6 +67,13 @@ public class DictionaryView extends javax.swing.JFrame {
         slangOptionRadioButton4 = new javax.swing.JRadioButton();
         slangQuizSubmitButton = new javax.swing.JButton();
         defQuizPanel = new javax.swing.JPanel();
+        defQuizSubmitButton = new javax.swing.JButton();
+        defQuizLabel = new javax.swing.JLabel();
+        defOptionPanel = new javax.swing.JPanel();
+        defOptionRadioButton1 = new javax.swing.JRadioButton();
+        defOptionRadioButton2 = new javax.swing.JRadioButton();
+        defOptionRadioButton3 = new javax.swing.JRadioButton();
+        defOptionRadioButton4 = new javax.swing.JRadioButton();
         searchHistoryPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -231,11 +239,6 @@ public class DictionaryView extends javax.swing.JFrame {
 
         tasksTabbedPane.addTab("Look Up", new javax.swing.ImageIcon(getClass().getResource("/searchIcon.png")), lookUpPanel); // NOI18N
 
-        slangQuizPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                slangQuizPanelMouseClicked(evt);
-            }
-        });
         slangQuizPanel.setLayout(new java.awt.BorderLayout());
 
         slangQuizLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -266,23 +269,43 @@ public class DictionaryView extends javax.swing.JFrame {
         slangQuizPanel.add(slangOptionPanel, java.awt.BorderLayout.CENTER);
 
         slangQuizSubmitButton.setText("Submit");
-        slangQuizSubmitButton.setMaximumSize(new java.awt.Dimension(50, 25));
-        slangQuizSubmitButton.setMinimumSize(new java.awt.Dimension(50, 25));
         slangQuizSubmitButton.setPreferredSize(new java.awt.Dimension(50, 25));
         slangQuizPanel.add(slangQuizSubmitButton, java.awt.BorderLayout.PAGE_END);
 
         tasksTabbedPane.addTab("Slang Guessing Quiz", slangQuizPanel);
 
-        javax.swing.GroupLayout defQuizPanelLayout = new javax.swing.GroupLayout(defQuizPanel);
-        defQuizPanel.setLayout(defQuizPanelLayout);
-        defQuizPanelLayout.setHorizontalGroup(
-            defQuizPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 805, Short.MAX_VALUE)
-        );
-        defQuizPanelLayout.setVerticalGroup(
-            defQuizPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 597, Short.MAX_VALUE)
-        );
+        defQuizPanel.setLayout(new java.awt.BorderLayout());
+
+        defQuizSubmitButton.setText("Submit");
+        defQuizPanel.add(defQuizSubmitButton, java.awt.BorderLayout.PAGE_END);
+
+        defQuizLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        defQuizLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        defQuizPanel.add(defQuizLabel, java.awt.BorderLayout.PAGE_START);
+
+        defOptionPanel.setLayout(new java.awt.GridLayout(2, 2));
+
+        defOptionButtonGroup.add(defOptionRadioButton1);
+        defOptionRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        defOptionRadioButton1.setMargin(new java.awt.Insets(50, 50, 50, 50));
+        defOptionPanel.add(defOptionRadioButton1);
+
+        defOptionButtonGroup.add(defOptionRadioButton2);
+        defOptionRadioButton2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        defOptionRadioButton2.setMargin(new java.awt.Insets(50, 50, 50, 50));
+        defOptionPanel.add(defOptionRadioButton2);
+
+        defOptionButtonGroup.add(defOptionRadioButton3);
+        defOptionRadioButton3.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        defOptionRadioButton3.setMargin(new java.awt.Insets(50, 50, 50, 50));
+        defOptionPanel.add(defOptionRadioButton3);
+
+        defOptionButtonGroup.add(defOptionRadioButton4);
+        defOptionRadioButton4.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        defOptionRadioButton4.setMargin(new java.awt.Insets(50, 50, 50, 50));
+        defOptionPanel.add(defOptionRadioButton4);
+
+        defQuizPanel.add(defOptionPanel, java.awt.BorderLayout.CENTER);
 
         tasksTabbedPane.addTab("Definition Guessing Quiz", defQuizPanel);
 
@@ -303,10 +326,6 @@ public class DictionaryView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void slangQuizPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_slangQuizPanelMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_slangQuizPanelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -385,6 +404,22 @@ public class DictionaryView extends javax.swing.JFrame {
         return -1;
     }
     
+    public int getDefOptionSelected() {
+        if (defOptionRadioButton1.isSelected()){
+            return 0;
+        }
+        if (defOptionRadioButton2.isSelected()){
+            return 1;
+        }
+        if (defOptionRadioButton3.isSelected()){
+            return 2;
+        }
+        if (defOptionRadioButton4.isSelected()){
+            return 3;
+        }
+        return -1;
+    }
+    
     /*
         Event
     */
@@ -420,11 +455,23 @@ public class DictionaryView extends javax.swing.JFrame {
         public void addSlangQuizSubmitButtonListener(ActionListener listenForClick) {
             slangQuizSubmitButton.addActionListener(listenForClick);
         }
+        
+        public void addDefQuizSubmitButtonListener(ActionListener listenForClick) {
+            defQuizSubmitButton.addActionListener(listenForClick);
+        }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel defDisplayLabel;
     private javax.swing.JTextArea defDisplayTextArea;
+    private javax.swing.ButtonGroup defOptionButtonGroup;
+    private javax.swing.JPanel defOptionPanel;
+    private javax.swing.JRadioButton defOptionRadioButton1;
+    private javax.swing.JRadioButton defOptionRadioButton2;
+    private javax.swing.JRadioButton defOptionRadioButton3;
+    private javax.swing.JRadioButton defOptionRadioButton4;
+    private javax.swing.JLabel defQuizLabel;
     private javax.swing.JPanel defQuizPanel;
+    private javax.swing.JButton defQuizSubmitButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel dictionaryTitleLabel;
     private javax.swing.JButton editButton;
@@ -462,13 +509,22 @@ public class DictionaryView extends javax.swing.JFrame {
         todaySlangDefTextField.setText(todaySlang.get(1));
     }
     
-    public void setSlangQuiz(SlangQuizModel theSlangModel) {
-        slangQuizLabel.setText(theSlangModel.getQuestion());
+    public void setSlangQuiz(String question, List option) {
+        slangQuizLabel.setText(question);
         slangOptionButtonGroup.clearSelection();
-        slangOptionRadioButton1.setText((String)theSlangModel.getOption().get(0));
-        slangOptionRadioButton2.setText((String)theSlangModel.getOption().get(1));
-        slangOptionRadioButton3.setText((String)theSlangModel.getOption().get(2));
-        slangOptionRadioButton4.setText((String)theSlangModel.getOption().get(3));
+        slangOptionRadioButton1.setText((String)option.get(0));
+        slangOptionRadioButton2.setText((String)option.get(1));
+        slangOptionRadioButton3.setText((String)option.get(2));
+        slangOptionRadioButton4.setText((String)option.get(3));
+    }
+    
+    public void setDefQuiz(String question, List option) {
+        defQuizLabel.setText(question);
+        defOptionButtonGroup.clearSelection();
+        defOptionRadioButton1.setText((String)option.get(0));
+        defOptionRadioButton2.setText((String)option.get(1));
+        defOptionRadioButton3.setText((String)option.get(2));
+        defOptionRadioButton4.setText((String)option.get(3));
     }
     
     public void displayDictionary(HashMap<String, HashSet<String>> data) {

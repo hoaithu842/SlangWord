@@ -6,31 +6,31 @@ package vn.edu.hcmus.fit.id_21127176.slangword.controller;
  */
 import vn.edu.hcmus.fit.id_21127176.slangword.model.DictionaryModel;
 import vn.edu.hcmus.fit.id_21127176.slangword.view.DictionaryView;
-import vn.edu.hcmus.fit.id_21127176.slangword.model.SlangQuizModel;
+import vn.edu.hcmus.fit.id_21127176.slangword.model.QuizModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 
 
 public class DictionaryController {
     private DictionaryView theView;
     private DictionaryModel theModel;
-    private SlangQuizModel theSlangQuizModel;
+    private QuizModel theQuizModel;
     
     public DictionaryController(DictionaryView theView, DictionaryModel theModel) {
         this.theView = theView;
         this.theModel = theModel;
-        this.theSlangQuizModel = new SlangQuizModel(theModel);
+        this.theQuizModel = new QuizModel(theModel);
         
         this.theView.displayDictionary(theModel.getDefinition());
         this.theView.setTodaySlang(theModel.getTodaySlang());
-        this.theView.setSlangQuiz(theSlangQuizModel);
+        this.theView.setSlangQuiz(theQuizModel.getSlangQuizQuestion(), theQuizModel.getSlangQuizOption());
+        this.theView.setDefQuiz(theQuizModel.getDefQuizQuestion(), theQuizModel.getDefQuizOption());
         
         this.theView.addSearchButtonListener(new SearchButtonListener());
         this.theView.addDeleteButtonListener(new DeleteButtonListener());
         this.theView.addSlangQuizSubmitButtonListener(new SlangQuizSubmitButtonListener());
+        this.theView.addDefQuizSubmitButtonListener(new DefQuizSubmitButtonListener());
     }
     
     class SearchButtonListener implements ActionListener {
@@ -80,15 +80,33 @@ public class DictionaryController {
             if (selectedOption == -1) {
                 theView.displayMessage("You must select an option!");
             } else {
-                if (theSlangQuizModel.getSolution() == selectedOption) {
+                if (theQuizModel.getSlangQuizSolution() == selectedOption) {
                     theView.displayMessage("Correct Answer!");
                 } else {
-                    theView.displayMessage("Incorret! The answer is: " + theSlangQuizModel.getOption().get(theSlangQuizModel.getSolution()));
+                    theView.displayMessage("Incorrect! The answer is: " + theQuizModel.getSlangQuizOption().get(theQuizModel.getSlangQuizSolution()));
                 }
-                theSlangQuizModel.generateQuiz();
-                theView.setSlangQuiz(theSlangQuizModel);
+                theQuizModel.generateSlangQuiz();
+                theView.setSlangQuiz(theQuizModel.getSlangQuizQuestion(), theQuizModel.getSlangQuizOption());
             }
+        }
+    }
+    
+    class DefQuizSubmitButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            int selectedOption = theView.getDefOptionSelected();
             
+            if (selectedOption == -1) {
+                theView.displayMessage("You must select an option!");
+            } else {
+                if (theQuizModel.getDefQuizSolution() == selectedOption) {
+                    theView.displayMessage("Correct Answer!");
+                } else {
+                    theView.displayMessage("Incorrect! The answer is: " + theQuizModel.getDefQuizOption().get(theQuizModel.getDefQuizSolution()));
+                }
+                theQuizModel.generateDefQuiz();
+                theView.setDefQuiz(theQuizModel.getDefQuizQuestion(), theQuizModel.getDefQuizOption());
+            }
         }
     }
 }
