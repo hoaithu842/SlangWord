@@ -2,7 +2,7 @@ package vn.edu.hcmus.fit.id_21127176.slangword.view;
 
 /**
  *
- * @author USER
+ * @author hoaithu842
  */
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
@@ -19,11 +19,26 @@ public class DictionaryView extends javax.swing.JFrame {
     /**
      * Creates new form DictionaryView
      */
+    private ListSelectionListener listener;
     public DictionaryView() {
         initComponents();
-        addRowTableListener();
+        
+        DefaultTableModel defaultTableModel = new DefaultTableModel();
+        searchResultTable.setModel(defaultTableModel);
+        
+        defaultTableModel.addColumn("Slang");
+        defaultTableModel.addColumn("Definition");
+        
+        listener = new RowTableListener();
+        addRowTableListener(listener);
     }
-
+    
+    class RowTableListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent event) {
+                    rowTableOnClick();
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -352,40 +367,6 @@ public class DictionaryView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DictionaryView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DictionaryView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DictionaryView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DictionaryView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DictionaryView().setVisible(true);
-            }
-        });
-    }
     /*
         Getters
     */
@@ -455,6 +436,10 @@ public class DictionaryView extends javax.swing.JFrame {
         return String.valueOf(searchResultTable.getValueAt(row, 1));
     }
     
+    public String getHistorySlangSelectedText() {
+        int row = historyTable.getSelectedRow();
+        return String.valueOf(historyTable.getValueAt(row, 0));
+    }
     /*
         Event
     */
@@ -478,15 +463,14 @@ public class DictionaryView extends javax.swing.JFrame {
         editButton.addActionListener(listenForClick);
     }
     
-    public void addRowTableListener() {
+    public void addRowTableListener(ListSelectionListener listenForClick) {
         ListSelectionModel listSelectionModel = searchResultTable.getSelectionModel();
-        listSelectionModel.addListSelectionListener(new ListSelectionListener(){
-            @Override
-            public void valueChanged(ListSelectionEvent event) {
-                    rowTableOnClick();
-            }
-        });
-//        listSelectionModel.addListSelectionListener(listenForClick);
+        listSelectionModel.addListSelectionListener(listenForClick);
+    }
+    
+    public void addHistoryRowListener(ListSelectionListener listenForClick) {
+        ListSelectionModel listSelectionModel = historyTable.getSelectionModel();
+        listSelectionModel.addListSelectionListener(listenForClick);
     }
         
         public void addSlangQuizSubmitButtonListener(ActionListener listenForClick) {
@@ -573,17 +557,20 @@ public class DictionaryView extends javax.swing.JFrame {
     }
     
     public void reloadDictionary(HashMap<String, HashSet<String>> data) {
-        DefaultTableModel defaultTableModel = new DefaultTableModel();
-        searchResultTable.setModel(defaultTableModel);
-        
-        defaultTableModel.addColumn("Slang");
-        defaultTableModel.addColumn("Definition");
-        
+        DefaultTableModel defaultTableModel = (DefaultTableModel)searchResultTable.getModel();
+
+        searchResultTable.getSelectionModel().removeListSelectionListener(listener);
+        defaultTableModel. setRowCount(0);
+        searchResultTable.getSelectionModel().addListSelectionListener(listener);
+
         for(String key: data.keySet()) {
             for (String def: data.get(key)) {
                 defaultTableModel.addRow(new Object[] {key, def});
             }
           }
+        
+        slangDisplayTextField.setText("");
+        defDisplayTextArea.setText("");
     }
     
     public void reloadHistory(List<String> data) {
@@ -614,19 +601,5 @@ public class DictionaryView extends javax.swing.JFrame {
         slangDisplayTextField.setText(getSlangSelectedText());
         defDisplayTextArea.setText(getDefSelectedText());
     }
-    
-//        public void deleteButtonOnClick() {
-//            DefaultTableModel defaultTableModel = (DefaultTableModel)searchResultTable.getModel();
-//            if (searchResultTable.getSelectedRow()==-1) {
-//                if (searchResultTable.getRowCount()==0) {
-//                    displayMessage("Table is empty!");
-//                } else {
-//                    displayMessage("Select a slang!");
-//                }
-//            } else {            
-//                defaultTableModel.removeRow(searchResultTable.getSelectedRow());
-//            }
-//            slangDisplayTextField.setText("");
-//            defDisplayTextArea.setText("");
-//        }
+
 }

@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author USER
+ * @author hoaithu842
  */
 public class DictionaryModel implements java.io.Serializable{
     private HashMap<String, HashSet<String>> definition;
@@ -40,6 +40,9 @@ public class DictionaryModel implements java.io.Serializable{
     }
     
     public void storeHistory(String key) {
+        if (history.contains(key)) {
+            history.remove(key);
+        }
         history.add(0, key);
     }
     /*

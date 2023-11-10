@@ -2,7 +2,7 @@ package vn.edu.hcmus.fit.id_21127176.slangword.controller;
 
 /**
  *
- * @author USER
+ * @author hoaithu842
  */
 import vn.edu.hcmus.fit.id_21127176.slangword.model.DictionaryModel;
 import vn.edu.hcmus.fit.id_21127176.slangword.view.DictionaryView;
@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 
@@ -39,6 +41,7 @@ public class DictionaryController {
         this.theView.addUpdateButtonListener(new UpdateButtonListener());
         this.theView.addSlangQuizSubmitButtonListener(new SlangQuizSubmitButtonListener());
         this.theView.addDefQuizSubmitButtonListener(new DefQuizSubmitButtonListener());
+        this.theView.addHistoryRowListener(new HistoryRowListener());
     }
     
     class SlangDictWindowListener implements WindowListener {
@@ -135,7 +138,6 @@ public class DictionaryController {
                 if (confirm == 0) {
                     boolean check = theModel.deleteSlangDefinition(key, value);
                     if (check==true) {
-    //                    theView.deleteButtonOnClick();
                         theView.displayMessage("Deleted Successfully!");
                         theView.reloadDictionary(theModel.getDefinition());
                     } else {
@@ -210,6 +212,14 @@ public class DictionaryController {
                 theQuizModel.generateDefQuiz();
                 theView.setDefQuiz(theQuizModel.getDefQuizQuestion(), theQuizModel.getDefQuizOption());
             }
+        }
+    }
+    
+    
+    class HistoryRowListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent event) {
+            theView.displayMessage("Definition(s): " + theModel.getDefinition().get(theView.getHistorySlangSelectedText().trim()).toString());
         }
     }
 }

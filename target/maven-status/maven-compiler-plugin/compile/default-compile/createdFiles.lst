@@ -1,14 +1,15 @@
 vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$UpdateButtonListener.class
 vn\edu\hcmus\fit\id_21127176\slangword\SlangWord.class
 vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$SlangQuizSubmitButtonListener.class
+vn\edu\hcmus\fit\id_21127176\slangword\view\DictionaryView$RowTableListener.class
 vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController.class
 vn\edu\hcmus\fit\id_21127176\slangword\model\DictionaryModel.class
 vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$DeleteButtonListener.class
 vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$SearchButtonListener.class
 vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$DefQuizSubmitButtonListener.class
 vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$SlangDictWindowListener.class
-vn\edu\hcmus\fit\id_21127176\slangword\view\DictionaryView$2.class
 vn\edu\hcmus\fit\id_21127176\slangword\model\QuizModel.class
+vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$HistoryRowListener.class
 vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$RestoreButtonListener.class
 vn\edu\hcmus\fit\id_21127176\slangword\view\DictionaryView.class
 vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$InsertButtonListener.class

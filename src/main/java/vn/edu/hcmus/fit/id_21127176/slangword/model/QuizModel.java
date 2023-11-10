@@ -6,7 +6,7 @@ import java.util.Random;
 
 /**
  *
- * @author USER
+ * @author hoaithu842
  */
 public class QuizModel {
     private DictionaryModel theModel;

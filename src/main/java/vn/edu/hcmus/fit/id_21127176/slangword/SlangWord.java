@@ -2,7 +2,7 @@ package vn.edu.hcmus.fit.id_21127176.slangword;
 
 /**
  *
- * @author USER
+ * @author hoaithu842
  */
 import java.io.File;
 import java.io.FileInputStream;
