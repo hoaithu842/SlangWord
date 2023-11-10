@@ -36,6 +36,8 @@ public class DictionaryModel {
             System.out.println(ex.getMessage());
         }
     }
+    
+//    private void 
     /*
      *   prepare data for the first time get access to app
      * */
@@ -185,7 +187,10 @@ public class DictionaryModel {
     }
     
     public void duplicateSlangDefinition(String key, String value) {
-        HashSet<String> newSetDef = definition.get(key);
+        HashSet<String> newSetDef = new HashSet<>();
+        if (definition.containsKey(key)) {
+            newSetDef = definition.get(key);
+        }
         definition.remove(key);
         newSetDef.add(value);
         definition.put(key, newSetDef);
@@ -213,7 +218,7 @@ public class DictionaryModel {
         if (!deleteSlangDefinition(sourceKey, sourceValue)) {
             return false;
         }
-        addNewSlangDefinition(destKey, destValue);
+        duplicateSlangDefinition(destKey, destValue);
         return true;
     }
     

@@ -5,6 +5,7 @@ package vn.edu.hcmus.fit.id_21127176.slangword.view;
  * @author USER
  */
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import javax.swing.table.DefaultTableModel;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -464,6 +465,10 @@ public class DictionaryView extends javax.swing.JFrame {
         
         public void addDefQuizSubmitButtonListener(ActionListener listenForClick) {
             defQuizSubmitButton.addActionListener(listenForClick);
+        }
+        
+        public void addSlangDictWindowListener(WindowListener listenForCloseAction) {
+            this.addWindowListener(listenForCloseAction);
         }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

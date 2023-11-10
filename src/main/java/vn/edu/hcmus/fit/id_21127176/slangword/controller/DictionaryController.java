@@ -9,6 +9,8 @@ import vn.edu.hcmus.fit.id_21127176.slangword.view.DictionaryView;
 import vn.edu.hcmus.fit.id_21127176.slangword.model.QuizModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 
 
@@ -22,6 +24,8 @@ public class DictionaryController {
         this.theModel = theModel;
         this.theQuizModel = new QuizModel(theModel);
         
+        this.theView.addSlangDictWindowListener(new SlangDictWindowListener());
+        
         this.theView.reloadDictionary(theModel.getDefinition());
         this.theView.setTodaySlang(theModel.getTodaySlang());
         this.theView.setSlangQuiz(theQuizModel.getSlangQuizQuestion(), theQuizModel.getSlangQuizOption());
@@ -34,7 +38,25 @@ public class DictionaryController {
         this.theView.addSlangQuizSubmitButtonListener(new SlangQuizSubmitButtonListener());
         this.theView.addDefQuizSubmitButtonListener(new DefQuizSubmitButtonListener());
     }
-
+    
+    class SlangDictWindowListener implements WindowListener {
+        @Override
+        public void windowClosing(WindowEvent e) {
+//            theModel.saveDictionary();
+        }
+        @Override
+        public void windowOpened(WindowEvent e) {}
+        @Override
+        public void windowClosed(WindowEvent e) {}
+        @Override
+        public void windowIconified(WindowEvent e) {}
+        @Override
+        public void windowDeiconified(WindowEvent e) {}
+        @Override
+        public void windowActivated(WindowEvent e) {}
+        @Override
+        public void windowDeactivated(WindowEvent e) {}
+    }
     /*
         ButtonListener
     */
@@ -116,12 +138,15 @@ public class DictionaryController {
                 theView.displayMessage("Can't update an empty slang!");
             } else {
                 if (theModel.slangExist(srcKey)) {
-                    boolean check = theModel.editSlangDefinition(srcKey, dstKey, srcValue, dstValue);
-                    if (check) {
-                        theView.displayMessage("Updated Successfully!");
-                        theView.reloadDictionary(theModel.getDefinition());
-                    } else {
-                        theView.displayMessage("Updated Fail!");
+                    int confirm = theView.confirmDecision("Do you really want to update this slang & definition?");
+                    if (confirm == 0) {
+                        boolean check = theModel.editSlangDefinition(srcKey, dstKey, srcValue, dstValue);
+                        if (check) {
+                            theView.displayMessage("Updated Successfully!");
+                            theView.reloadDictionary(theModel.getDefinition());
+                        } else {
+                            theView.displayMessage("Updated Fail!");
+                        }
                     }
                 } else {
                     theView.displayMessage("Can't update a non-existent slang!");
