@@ -27,6 +27,7 @@ public class DictionaryController {
         this.theView.addSlangDictWindowListener(new SlangDictWindowListener());
         
         this.theView.reloadDictionary(theModel.getDefinition());
+        this.theView.reloadHistory(theModel.getHistory());
         this.theView.setTodaySlang(theModel.getTodaySlang());
         this.theView.setSlangQuiz(theQuizModel.getSlangQuizQuestion(), theQuizModel.getSlangQuizOption());
         this.theView.setDefQuiz(theQuizModel.getDefQuizQuestion(), theQuizModel.getDefQuizOption());
@@ -69,11 +70,13 @@ public class DictionaryController {
                 theView.reloadDictionary(theModel.getDefinition());
             } else {
                 if (theView.getLookUpSlangRadioButton().isSelected()) {
+                    theModel.storeHistory(key);
+                    theView.reloadHistory(theModel.getHistory());
                     theView.reloadDictionary(theModel.getSearchBySlangResult(key));
                 } else {
                     theView.reloadDictionary(theModel.getSearchByDefResult(key));
                 }
-            } 
+            }
         }
     }
     

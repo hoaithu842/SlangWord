@@ -18,12 +18,12 @@ import java.util.Scanner;
 public class DictionaryModel implements java.io.Serializable{
     private HashMap<String, HashSet<String>> definition;
     private HashMap<String, HashSet<String>> prediction;
-    private HashSet<String> history;
+    private List<String> history;
     
     public DictionaryModel() {
         definition = new HashMap<>();
         prediction = new HashMap<>();
-        history = new HashSet<>();
+        history = new ArrayList<>();
         importDictionary();
     }
 
@@ -37,6 +37,10 @@ public class DictionaryModel implements java.io.Serializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void storeHistory(String key) {
+        history.add(0, key);
     }
     /*
      *   prepare data for the first time get access to app
@@ -92,11 +96,11 @@ public class DictionaryModel implements java.io.Serializable{
         this.prediction = prediction;
     }
 
-    public HashSet<String> getHistory() {
+    public List<String> getHistory() {
         return history;
     }
 
-    public void setHistory(HashSet<String> history) {
+    public void setHistory(List<String> history) {
         this.history = history;
     }
     

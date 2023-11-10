@@ -75,6 +75,9 @@ public class DictionaryView extends javax.swing.JFrame {
         defOptionRadioButton3 = new javax.swing.JRadioButton();
         defOptionRadioButton4 = new javax.swing.JRadioButton();
         searchHistoryPanel = new javax.swing.JPanel();
+        searchHistoryLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        historyTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Slang Word - 21127176 - 21KTPM1");
@@ -195,7 +198,7 @@ public class DictionaryView extends javax.swing.JFrame {
                                             .addComponent(editButton)
                                             .addGap(18, 18, 18)
                                             .addComponent(deleteButton))))))))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
         lookUpPanelLayout.setVerticalGroup(
             lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +233,7 @@ public class DictionaryView extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addComponent(todaySlangPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(searchResultScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         tasksTabbedPane.addTab("Look Up", new javax.swing.ImageIcon(getClass().getResource("/searchIcon.png")), lookUpPanel); // NOI18N
@@ -305,15 +308,41 @@ public class DictionaryView extends javax.swing.JFrame {
 
         tasksTabbedPane.addTab("Definition Guessing Quiz", defQuizPanel);
 
+        searchHistoryLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        searchHistoryLabel.setText("Search History");
+
+        historyTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        historyTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(historyTable);
+
         javax.swing.GroupLayout searchHistoryPanelLayout = new javax.swing.GroupLayout(searchHistoryPanel);
         searchHistoryPanel.setLayout(searchHistoryPanelLayout);
         searchHistoryPanelLayout.setHorizontalGroup(
             searchHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 805, Short.MAX_VALUE)
+            .addGroup(searchHistoryPanelLayout.createSequentialGroup()
+                .addGap(310, 310, 310)
+                .addComponent(searchHistoryLabel)
+                .addGap(329, 329, 329))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchHistoryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(142, 142, 142))
         );
         searchHistoryPanelLayout.setVerticalGroup(
             searchHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 599, Short.MAX_VALUE)
+            .addGroup(searchHistoryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(searchHistoryLabel)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         tasksTabbedPane.addTab("Search History", new javax.swing.ImageIcon(getClass().getResource("/clock.png")), searchHistoryPanel); // NOI18N
@@ -487,14 +516,17 @@ public class DictionaryView extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel dictionaryTitleLabel;
     private javax.swing.JButton editButton;
+    private javax.swing.JTable historyTable;
     private javax.swing.JButton insertButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.ButtonGroup lookUpButtonGroup;
     private javax.swing.JRadioButton lookUpDefRadioButton;
     private javax.swing.JPanel lookUpPanel;
     private javax.swing.JRadioButton lookUpSlangRadioButton;
     private javax.swing.JButton restoreButton;
     private javax.swing.JButton searchButton;
+    private javax.swing.JLabel searchHistoryLabel;
     private javax.swing.JPanel searchHistoryPanel;
     private javax.swing.JScrollPane searchResultScrollPane;
     private javax.swing.JTable searchResultTable;
@@ -552,6 +584,16 @@ public class DictionaryView extends javax.swing.JFrame {
                 defaultTableModel.addRow(new Object[] {key, def});
             }
           }
+    }
+    
+    public void reloadHistory(List<String> data) {
+        DefaultTableModel defaultTableModel = new DefaultTableModel();
+        historyTable.setModel(defaultTableModel);
+        
+        defaultTableModel.addColumn("Slang");
+        for (String key : data) {
+            defaultTableModel.addRow(new Object[] {key});
+        }
     }
     
     public int confirmDecision(String message) {
