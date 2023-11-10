@@ -22,53 +22,111 @@ public class DictionaryController {
         this.theModel = theModel;
         this.theQuizModel = new QuizModel(theModel);
         
-        this.theView.displayDictionary(theModel.getDefinition());
+        this.theView.reloadDictionary(theModel.getDefinition());
         this.theView.setTodaySlang(theModel.getTodaySlang());
         this.theView.setSlangQuiz(theQuizModel.getSlangQuizQuestion(), theQuizModel.getSlangQuizOption());
         this.theView.setDefQuiz(theQuizModel.getDefQuizQuestion(), theQuizModel.getDefQuizOption());
         
         this.theView.addSearchButtonListener(new SearchButtonListener());
+        this.theView.addInsertButtonListener(new InsertButtonListener());
         this.theView.addDeleteButtonListener(new DeleteButtonListener());
+        this.theView.addUpdateButtonListener(new UpdateButtonListener());
         this.theView.addSlangQuizSubmitButtonListener(new SlangQuizSubmitButtonListener());
         this.theView.addDefQuizSubmitButtonListener(new DefQuizSubmitButtonListener());
     }
-    
+
+    /*
+        ButtonListener
+    */
     class SearchButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
-            String key = theView.getSearchTextField().getText();
+            String key = theView.getSearchTextField().getText().trim();
             if (key.isEmpty()) {
-                theView.displayDictionary(theModel.getDefinition());
+                theView.reloadDictionary(theModel.getDefinition());
             } else {
                 if (theView.getLookUpSlangRadioButton().isSelected()) {
-                    theView.displayDictionary(theModel.getSearchBySlangResult(key));
+                    theView.reloadDictionary(theModel.getSearchBySlangResult(key));
                 } else {
-                    theView.displayDictionary(theModel.getSearchByDefResult(key));
+                    theView.reloadDictionary(theModel.getSearchByDefResult(key));
                 }
             } 
         }
     }
-    
+        
+    class InsertButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            String key = theView.getSlangDisplayText().trim();
+            String value = theView.getDefDisplayText().trim();
+            
+            if (key.isEmpty()) {
+                theView.displayMessage("Can't insert an empty slang!");
+            } else {
+                if (theModel.slangExist(key)) {
+                    int opt = theView.getInsertDecision();
+                    if (opt==0) {
+                        theModel.addNewSlangDefinition(key, value);
+                    } else if (opt==1) {
+                        theModel.duplicateSlangDefinition(key, value);
+                    }
+                } else {
+                    theModel.addNewSlangDefinition(key, value);
+                }
+                theView.displayMessage("Successfully Completed!");
+                theView.reloadDictionary(theModel.getDefinition());
+            }
+        }
+    }
+
     class DeleteButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
-            String key = theView.getSlangDisplayTextField().getText();
-            String value = theView.getDefDisplayTextArea().getText();
+            String key = theView.getSlangDisplayText().trim();
+            String value = theView.getDefDisplayText().trim();
             
-            int confirm = theView.confirmDecision("This definition will be deleted.");
+            if (key.isEmpty()) {
+                theView.displayMessage("Can't delete an empty slang!");
+            } else {
+                int confirm = theView.confirmDecision("Do you really want to delete this slang & definition?");
+
+                if (confirm == 0) {
+                    boolean check = theModel.deleteSlangDefinition(key, value);
+                    if (check==true) {
+    //                    theView.deleteButtonOnClick();
+                        theView.displayMessage("Deleted Successfully!");
+                        theView.reloadDictionary(theModel.getDefinition());
+                    } else {
+                        theView.displayMessage("Deleted Fail!");
+                    }
+                 }
+            }
+        }
+    }
+    
+    class UpdateButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            String srcKey = theView.getSlangSelectedText();
+            String srcValue = theView.getDefSelectedText();
+            String dstKey = theView.getSlangDisplayText().trim();
+            String dstValue = theView.getDefDisplayText().trim();
             
-            if (confirm == 0) {
-                boolean check = theModel.deleteSlangDefinition(key, value);
-                if (check==true) {
-                    theView.displayMessage("Deleted Successfully!");
-                    theView.displayDictionary(theModel.getDefinition());
+            if (srcKey.isEmpty()) {
+                theView.displayMessage("Can't update an empty slang!");
+            } else {
+                if (theModel.slangExist(srcKey)) {
+                    boolean check = theModel.editSlangDefinition(srcKey, dstKey, srcValue, dstValue);
+                    if (check) {
+                        theView.displayMessage("Updated Successfully!");
+                        theView.reloadDictionary(theModel.getDefinition());
+                    } else {
+                        theView.displayMessage("Updated Fail!");
+                    }
                 } else {
-                    theView.displayMessage("Deleted Fail!");
+                    theView.displayMessage("Can't update a non-existent slang!");
                 }
             }
-            
-            theView.getSlangDisplayTextField().setText("");
-            theView.getDefDisplayTextArea().setText("");
         }
     }
     

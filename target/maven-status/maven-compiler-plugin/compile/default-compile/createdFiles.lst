@@ -1,3 +1,4 @@
+vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$UpdateButtonListener.class
 vn\edu\hcmus\fit\id_21127176\slangword\SlangWord.class
 vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$SlangQuizSubmitButtonListener.class
 vn\edu\hcmus\fit\id_21127176\slangword\view\DictionaryView$3.class
@@ -9,4 +10,5 @@ vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$DefQuizSu
 vn\edu\hcmus\fit\id_21127176\slangword\view\DictionaryView$2.class
 vn\edu\hcmus\fit\id_21127176\slangword\model\QuizModel.class
 vn\edu\hcmus\fit\id_21127176\slangword\view\DictionaryView.class
+vn\edu\hcmus\fit\id_21127176\slangword\controller\DictionaryController$InsertButtonListener.class
 vn\edu\hcmus\fit\id_21127176\slangword\view\DictionaryView$1.class

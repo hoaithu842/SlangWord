@@ -12,7 +12,6 @@ import java.util.List;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import vn.edu.hcmus.fit.id_21127176.slangword.model.QuizModel;
 
 public class DictionaryView extends javax.swing.JFrame {
 
@@ -32,7 +31,6 @@ public class DictionaryView extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         lookUpButtonGroup = new javax.swing.ButtonGroup();
         slangOptionButtonGroup = new javax.swing.ButtonGroup();
@@ -103,7 +101,7 @@ public class DictionaryView extends javax.swing.JFrame {
         });
         searchResultTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         searchResultTable.setName(""); // NOI18N
-        searchResultTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        searchResultTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         searchResultTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         searchResultTable.setShowGrid(true);
         searchResultTable.setVerifyInputWhenFocusTarget(false);
@@ -376,12 +374,12 @@ public class DictionaryView extends javax.swing.JFrame {
         return deleteButton;
     }
     
-    public javax.swing.JTextField getSlangDisplayTextField() {
-        return slangDisplayTextField;
+    public String getSlangDisplayText() {
+        return slangDisplayTextField.getText();
     }
     
-    public javax.swing.JTextArea getDefDisplayTextArea() {
-        return defDisplayTextArea;
+    public String getDefDisplayText() {
+        return defDisplayTextArea.getText();
     }
     
     public javax.swing.JTable getSearchResultTable() {
@@ -419,6 +417,16 @@ public class DictionaryView extends javax.swing.JFrame {
         }
         return -1;
     }
+
+    public String getSlangSelectedText() {
+        int row = searchResultTable.getSelectedRow();
+        return String.valueOf( searchResultTable.getValueAt(row, 0));
+    }
+    
+    public String getDefSelectedText() {
+        int row = searchResultTable.getSelectedRow();
+        return String.valueOf(searchResultTable.getValueAt(row, 1));
+    }
     
     /*
         Event
@@ -427,25 +435,23 @@ public class DictionaryView extends javax.swing.JFrame {
         searchButton.addActionListener(listenForClick);
     }
     
+    public void addInsertButtonListener(ActionListener listenForClick) {
+        insertButton.addActionListener(listenForClick);
+    }
+    
     public void addDeleteButtonListener(ActionListener listenForClick) {
         deleteButton.addActionListener(listenForClick);
     }
-
-//    public void addRowTableListener(ListSelectionListener listenForClick) {
-//        ListSelectionModel listSelectionModel = searchResultTable.getSelectionModel();
-//        listSelectionModel.addListSelectionListener(listenForClick);
-//    }
     
-        public void addRowTableListener() {
+    public void addUpdateButtonListener(ActionListener listenForClick) {
+        editButton.addActionListener(listenForClick);
+    }
+    
+    public void addRowTableListener() {
         ListSelectionModel listSelectionModel = searchResultTable.getSelectionModel();
         listSelectionModel.addListSelectionListener(new ListSelectionListener(){
             @Override
             public void valueChanged(ListSelectionEvent event) {
-//                int rows[] = searchResultTable.getSelectedRows();
-//                int cols[] = searchResultTable.getSelectedColumns();
-//                
-//                String code = String.valueOf(searchResultTable.getValueAt(rows[0], 0));
-//                searchTextField.setText(code);
                     rowTableOnClick();
             }
         });
@@ -527,7 +533,7 @@ public class DictionaryView extends javax.swing.JFrame {
         defOptionRadioButton4.setText((String)option.get(3));
     }
     
-    public void displayDictionary(HashMap<String, HashSet<String>> data) {
+    public void reloadDictionary(HashMap<String, HashSet<String>> data) {
         DefaultTableModel defaultTableModel = new DefaultTableModel();
         searchResultTable.setModel(defaultTableModel);
         
@@ -549,18 +555,29 @@ public class DictionaryView extends javax.swing.JFrame {
         javax.swing.JOptionPane.showMessageDialog(this, message);
     }
     
-    public void rowTableOnClick() {
-        int rows[] = searchResultTable.getSelectedRows();
-        String slang = String.valueOf( searchResultTable.getValueAt(rows[0], 0));
-        String def = String.valueOf(searchResultTable.getValueAt(rows[0], 1));
-        slangDisplayTextField.setText(slang);
-        defDisplayTextArea.setText(def);
+    public int getInsertDecision() {
+        Object stringArray[] = { "Overwrite", "Duplicate" };
+        return javax.swing.JOptionPane.showOptionDialog(this, "Existed slang definition!", "Select an Option",
+        javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
     }
     
-//    class RowTableListener implements ListSelectionListener {
-//        @Override
-//        public void valueChanged(ListSelectionEvent event) {
-//             rowTableOnClick();
+    public void rowTableOnClick() {
+        slangDisplayTextField.setText(getSlangSelectedText());
+        defDisplayTextArea.setText(getDefSelectedText());
+    }
+    
+//        public void deleteButtonOnClick() {
+//            DefaultTableModel defaultTableModel = (DefaultTableModel)searchResultTable.getModel();
+//            if (searchResultTable.getSelectedRow()==-1) {
+//                if (searchResultTable.getRowCount()==0) {
+//                    displayMessage("Table is empty!");
+//                } else {
+//                    displayMessage("Select a slang!");
+//                }
+//            } else {            
+//                defaultTableModel.removeRow(searchResultTable.getSelectedRow());
+//            }
+//            slangDisplayTextField.setText("");
+//            defDisplayTextArea.setText("");
 //        }
-//    }
 }

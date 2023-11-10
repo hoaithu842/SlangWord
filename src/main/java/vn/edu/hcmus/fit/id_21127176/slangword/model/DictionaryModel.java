@@ -110,13 +110,13 @@ public class DictionaryModel {
         return prediction.containsKey(key);
     }
     
-    public boolean slangExisted(String key) {
+    public boolean slangExist(String key) {
         return definition.containsKey(key);
     }
     
     public HashMap<String, HashSet<String>> getSearchBySlangResult(String key) {
         HashMap<String, HashSet<String>> res = new HashMap<>();
-        if (slangExisted(key.trim())){
+        if (slangExist(key.trim())){
             res.put(key.trim(), definition.get(key.trim()));
         }
         return res;
@@ -209,11 +209,11 @@ public class DictionaryModel {
         return true;
     }
     
-    public boolean editSlangDefinition(String srcKey, String dstKey, String srcValue, String destValue) {
-        if (!deleteSlangDefinition(srcKey, srcValue)) {
+    public boolean editSlangDefinition(String sourceKey, String destKey, String sourceValue, String destValue) {
+        if (!deleteSlangDefinition(sourceKey, sourceValue)) {
             return false;
         }
-        addNewSlangDefinition(dstKey, destValue);
+        addNewSlangDefinition(destKey, destValue);
         return true;
     }
     
