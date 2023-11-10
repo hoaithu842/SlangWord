@@ -57,6 +57,7 @@ public class DictionaryView extends javax.swing.JFrame {
         todaySlangWordLabel = new javax.swing.JLabel();
         todaySlangLabel = new javax.swing.JLabel();
         todaySlangDefTextField = new javax.swing.JTextField();
+        restoreButton = new javax.swing.JButton();
         slangQuizPanel = new javax.swing.JPanel();
         slangQuizLabel = new javax.swing.JLabel();
         slangOptionPanel = new javax.swing.JPanel();
@@ -83,23 +84,12 @@ public class DictionaryView extends javax.swing.JFrame {
 
         searchResultTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Input", "Result"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
-        });
+        ));
         searchResultTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         searchResultTable.setName(""); // NOI18N
         searchResultTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -158,6 +148,9 @@ public class DictionaryView extends javax.swing.JFrame {
         todaySlangDefTextField.setBorder(null);
         todaySlangPanel.add(todaySlangDefTextField, java.awt.BorderLayout.PAGE_END);
 
+        restoreButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clock.png"))); // NOI18N
+        restoreButton.setToolTipText("Restore Dictionary");
+
         javax.swing.GroupLayout lookUpPanelLayout = new javax.swing.GroupLayout(lookUpPanel);
         lookUpPanel.setLayout(lookUpPanelLayout);
         lookUpPanelLayout.setHorizontalGroup(
@@ -179,27 +172,30 @@ public class DictionaryView extends javax.swing.JFrame {
                     .addGroup(lookUpPanelLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(restoreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(lookUpPanelLayout.createSequentialGroup()
                         .addGap(18, 18, Short.MAX_VALUE)
                         .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(defDisplayLabel)
-                            .addGroup(lookUpPanelLayout.createSequentialGroup()
-                                .addComponent(slangDisplayLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(slangDisplayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(lookUpPanelLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(todaySlangPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane1)
-                                    .addGroup(lookUpPanelLayout.createSequentialGroup()
-                                        .addComponent(insertButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(editButton)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(deleteButton)))))
-                        .addContainerGap(52, Short.MAX_VALUE))))
+                            .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, lookUpPanelLayout.createSequentialGroup()
+                                    .addComponent(slangDisplayLabel)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(slangDisplayTextField))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, lookUpPanelLayout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(todaySlangPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane1)
+                                        .addGroup(lookUpPanelLayout.createSequentialGroup()
+                                            .addComponent(insertButton)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(editButton)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(deleteButton))))))))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         lookUpPanelLayout.setVerticalGroup(
             lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,8 +204,9 @@ public class DictionaryView extends javax.swing.JFrame {
                 .addComponent(dictionaryTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(restoreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(lookUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lookUpSlangRadioButton)
@@ -233,7 +230,7 @@ public class DictionaryView extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addComponent(todaySlangPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(searchResultScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         tasksTabbedPane.addTab("Look Up", new javax.swing.ImageIcon(getClass().getResource("/searchIcon.png")), lookUpPanel); // NOI18N
@@ -316,10 +313,10 @@ public class DictionaryView extends javax.swing.JFrame {
         );
         searchHistoryPanelLayout.setVerticalGroup(
             searchHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 597, Short.MAX_VALUE)
+            .addGap(0, 599, Short.MAX_VALUE)
         );
 
-        tasksTabbedPane.addTab("Search History", searchHistoryPanel);
+        tasksTabbedPane.addTab("Search History", new javax.swing.ImageIcon(getClass().getResource("/clock.png")), searchHistoryPanel); // NOI18N
 
         getContentPane().add(tasksTabbedPane, java.awt.BorderLayout.CENTER);
 
@@ -436,6 +433,10 @@ public class DictionaryView extends javax.swing.JFrame {
         searchButton.addActionListener(listenForClick);
     }
     
+    public void addRestoreButtonListener(ActionListener listenForClick) {
+        restoreButton.addActionListener(listenForClick);
+    }
+    
     public void addInsertButtonListener(ActionListener listenForClick) {
         insertButton.addActionListener(listenForClick);
     }
@@ -492,6 +493,7 @@ public class DictionaryView extends javax.swing.JFrame {
     private javax.swing.JRadioButton lookUpDefRadioButton;
     private javax.swing.JPanel lookUpPanel;
     private javax.swing.JRadioButton lookUpSlangRadioButton;
+    private javax.swing.JButton restoreButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JPanel searchHistoryPanel;
     private javax.swing.JScrollPane searchResultScrollPane;

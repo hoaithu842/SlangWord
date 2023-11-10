@@ -11,33 +11,33 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author USER
  */
-public class DictionaryModel {
+public class DictionaryModel implements java.io.Serializable{
     private HashMap<String, HashSet<String>> definition;
     private HashMap<String, HashSet<String>> prediction;
     private HashSet<String> history;
+    
+    public DictionaryModel() {
+        definition = new HashMap<>();
+        prediction = new HashMap<>();
+        history = new HashSet<>();
+        importDictionary();
+    }
 
-    /*
-     *   first-time accessing app
-     * */
-    private void loadDictionary() {
+    public void saveDictionary() {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("slang.bin"));
-            DictionaryModel temp = (DictionaryModel) ois.readObject();
-            this.definition = temp.getDefinition();
-            this.prediction = temp.getPrediction();
-            this.history = temp.getHistory();
-        } catch (ClassNotFoundException | IOException ex) {
-            System.out.println(ex.getMessage());
+            FileOutputStream fos = new FileOutputStream("slang.dat");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this);
+            oos.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-    
-//    private void 
     /*
      *   prepare data for the first time get access to app
      * */
@@ -70,18 +70,10 @@ public class DictionaryModel {
             throw new RuntimeException(e);
         }
     }
-    public DictionaryModel() {
-        definition = new HashMap<>();
-        prediction = new HashMap<>();
-        history = new HashSet<>();
-
-        File f = new File("slang.bin");
-
-        if (f.exists()){
-            loadDictionary();
-        } else {
-            importDictionary();
-        }
+    
+    public boolean restoreDictionary() {
+        File data_file = new File("slang.dat");
+        return data_file.delete();
     }
 
     public HashMap<String, HashSet<String>> getDefinition() {

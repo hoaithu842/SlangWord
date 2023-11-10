@@ -4,13 +4,33 @@ package vn.edu.hcmus.fit.id_21127176.slangword;
  *
  * @author USER
  */
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import vn.edu.hcmus.fit.id_21127176.slangword.model.DictionaryModel;
 import vn.edu.hcmus.fit.id_21127176.slangword.view.DictionaryView;
 import vn.edu.hcmus.fit.id_21127176.slangword.controller.DictionaryController;
 
 public class SlangWord {
-    public static void main(String[] args) {
-        DictionaryModel theModel = new DictionaryModel();
+    private static DictionaryModel getModel() throws FileNotFoundException, IOException, ClassNotFoundException {
+        File f = new File("slang.dat");
+        if (f.exists()){
+            FileInputStream fis = new FileInputStream("slang.dat");
+            
+            try (ObjectInputStream ois = new ObjectInputStream(fis)) {
+                DictionaryModel theModel = (DictionaryModel)ois.readObject();
+                ois.close();
+                return theModel;
+            }
+        } else {
+            return new DictionaryModel();
+        }
+    }
+    
+    public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
+        DictionaryModel theModel = getModel();
         DictionaryView theView = new DictionaryView();
         
         DictionaryController theController = new DictionaryController(theView, theModel);

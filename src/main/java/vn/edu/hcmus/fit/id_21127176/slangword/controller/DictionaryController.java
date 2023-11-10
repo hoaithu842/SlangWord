@@ -32,6 +32,7 @@ public class DictionaryController {
         this.theView.setDefQuiz(theQuizModel.getDefQuizQuestion(), theQuizModel.getDefQuizOption());
         
         this.theView.addSearchButtonListener(new SearchButtonListener());
+        this.theView.addRestoreButtonListener(new RestoreButtonListener());
         this.theView.addInsertButtonListener(new InsertButtonListener());
         this.theView.addDeleteButtonListener(new DeleteButtonListener());
         this.theView.addUpdateButtonListener(new UpdateButtonListener());
@@ -42,7 +43,7 @@ public class DictionaryController {
     class SlangDictWindowListener implements WindowListener {
         @Override
         public void windowClosing(WindowEvent e) {
-//            theModel.saveDictionary();
+            theModel.saveDictionary();
         }
         @Override
         public void windowOpened(WindowEvent e) {}
@@ -73,6 +74,22 @@ public class DictionaryController {
                     theView.reloadDictionary(theModel.getSearchByDefResult(key));
                 }
             } 
+        }
+    }
+    
+    class RestoreButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            int confirm = theView.confirmDecision("Restore Dictionary will also restore Search History. Continue?");
+            if (confirm == 0) {
+                boolean check = theModel.restoreDictionary();
+                if (check) {
+                    theView.displayMessage("Restored Successfully! You need to restart your application!");
+                    theView.dispose();
+                } else {
+                    theView.displayMessage("No data recorded!");
+                }
+            }
         }
     }
         
