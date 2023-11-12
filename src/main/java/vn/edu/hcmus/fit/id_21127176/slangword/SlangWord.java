@@ -15,6 +15,7 @@ import vn.edu.hcmus.fit.id_21127176.slangword.controller.DictionaryController;
 
 public class SlangWord {
     private static DictionaryModel getModel() throws FileNotFoundException, IOException, ClassNotFoundException {
+        // Load saved data (not First-time Access)
         File f = new File("slang.dat");
         if (f.exists()){
             FileInputStream fis = new FileInputStream("slang.dat");
@@ -25,6 +26,7 @@ public class SlangWord {
                 return theModel;
             }
         } else {
+            // First-time Access
             return new DictionaryModel();
         }
     }
@@ -32,7 +34,6 @@ public class SlangWord {
     public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
         DictionaryModel theModel = getModel();
         DictionaryView theView = new DictionaryView();
-        
         DictionaryController theController = new DictionaryController(theView, theModel);
         theView.setVisible(true);
     }

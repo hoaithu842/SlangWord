@@ -26,41 +26,20 @@ public class DictionaryModel implements java.io.Serializable{
         history = new ArrayList<>();
         importDictionary();
     }
-
-    public void saveDictionary() {
-        try {
-            FileOutputStream fos = new FileOutputStream("slang.dat");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(this);
-            oos.close();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void storeHistory(String key) {
-        if (history.contains(key)) {
-            history.remove(key);
-        }
-        history.add(0, key);
-    }
-    /*
-     *   prepare data for the first time get access to app
-     * */
+    // File & Store
     private void importDictionary() {
         try (Scanner input = new Scanner(new File("slang.txt"))) {
             while(input.hasNextLine()) {
                 String data = input.nextLine();
-                if (!data.isEmpty() && data.indexOf("`")!=-1){
+                if (!data.isEmpty() && data.contains("`")){
                     String[] elements = data.split("`");
                     String[] definitions = elements[1].split("\\| ");
                     
                     HashSet<String> defSet = new HashSet<>();
                     Collections.addAll(defSet, definitions);
 
-                    for (String definition : definitions) {
-                        for (String word : definition.split(" ")) {
+                    for (String value : definitions) {
+                        for (String word : value.split(" ")) {
                             HashSet<String> predSet = prediction.get(word);
                             if (predSet==null) {
                                 predSet = new HashSet<>();
@@ -77,12 +56,29 @@ public class DictionaryModel implements java.io.Serializable{
             throw new RuntimeException(e);
         }
     }
+
+    public void saveDictionary() {
+        try {
+            try (FileOutputStream fos = new FileOutputStream("slang.dat"); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+                oos.writeObject(this);
+            }
+        } catch (IOException e) {
+        }
+    }
+    
+    public void storeHistory(String key) {
+        if (history.contains(key)) {
+            history.remove(key);
+        }
+        history.add(0, key);
+    }
     
     public boolean restoreDictionary() {
         File data_file = new File("slang.dat");
         return data_file.delete();
     }
 
+    //  Getters & Setters
     public HashMap<String, HashSet<String>> getDefinition() {
         return definition;
     }
@@ -115,6 +111,7 @@ public class DictionaryModel implements java.io.Serializable{
         return definition.containsKey(key);
     }
     
+    // Search Features
     public HashMap<String, HashSet<String>> getSearchBySlangResult(String key) {
         HashMap<String, HashSet<String>> res = new HashMap<>();
         if (slangExist(key.trim())){
@@ -178,6 +175,7 @@ public class DictionaryModel implements java.io.Serializable{
         return res;
     }
     
+    // Insert, Delete, Edit Features
     public void addNewSlangDefinition(String key, String value) {
         definition.remove(key);
         HashSet<String> newSetDef = new HashSet<>();
@@ -221,6 +219,7 @@ public class DictionaryModel implements java.io.Serializable{
         return true;
     }
     
+    // Feature
     public List getTodaySlang() {
         if (definition.isEmpty()) {
             List<String> tmpList;
