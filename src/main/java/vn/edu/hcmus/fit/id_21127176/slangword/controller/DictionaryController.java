@@ -14,12 +14,10 @@ import java.awt.event.WindowListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-
-
 public class DictionaryController {
-    private DictionaryView theView;
-    private DictionaryModel theModel;
-    private QuizModel theQuizModel;
+    private final DictionaryView theView;
+    private final DictionaryModel theModel;
+    private final QuizModel theQuizModel;
     
     public DictionaryController(DictionaryView theView, DictionaryModel theModel) {
         this.theView = theView;
@@ -62,9 +60,7 @@ public class DictionaryController {
         @Override
         public void windowDeactivated(WindowEvent e) {}
     }
-    /*
-        ButtonListener
-    */
+
     class SearchButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -108,17 +104,19 @@ public class DictionaryController {
             if (key.isEmpty()) {
                 theView.displayMessage("Can't insert an empty slang!");
             } else {
-                if (theModel.slangExist(key)) {
+                if (theModel.slangExists(key)) {
                     int opt = theView.getInsertDecision();
                     if (opt==0) {
                         theModel.addNewSlangDefinition(key, value);
+                        theView.displayMessage("Successfully Completed!");
                     } else if (opt==1) {
                         theModel.duplicateSlangDefinition(key, value);
+                        theView.displayMessage("Successfully Completed!");
                     }
                 } else {
                     theModel.addNewSlangDefinition(key, value);
+                    theView.displayMessage("Successfully Completed!");
                 }
-                theView.displayMessage("Successfully Completed!");
                 theView.reloadDictionary(theModel.getDefinition());
             }
         }
@@ -159,7 +157,7 @@ public class DictionaryController {
             if (srcKey.isEmpty()) {
                 theView.displayMessage("Can't update an empty slang!");
             } else {
-                if (theModel.slangExist(srcKey)) {
+                if (theModel.slangExists(srcKey)) {
                     int confirm = theView.confirmDecision("Do you really want to update this slang & definition?");
                     if (confirm == 0) {
                         boolean check = theModel.editSlangDefinition(srcKey, dstKey, srcValue, dstValue);
@@ -214,7 +212,6 @@ public class DictionaryController {
             }
         }
     }
-    
     
     class HistoryRowListener implements ListSelectionListener {
         @Override

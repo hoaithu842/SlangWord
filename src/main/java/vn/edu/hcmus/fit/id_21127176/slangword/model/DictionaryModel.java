@@ -103,18 +103,19 @@ public class DictionaryModel implements java.io.Serializable{
         this.history = history;
     }
     
-    public boolean wordExisted(String key) {
+    //Check Existence
+    public boolean wordExists(String key) {
         return prediction.containsKey(key);
     }
     
-    public boolean slangExist(String key) {
+    public boolean slangExists(String key) {
         return definition.containsKey(key);
     }
     
     // Search Features
     public HashMap<String, HashSet<String>> getSearchBySlangResult(String key) {
         HashMap<String, HashSet<String>> res = new HashMap<>();
-        if (slangExist(key.trim())){
+        if (slangExists(key.trim())){
             res.put(key.trim(), definition.get(key.trim()));
         }
         return res;
@@ -129,14 +130,14 @@ public class DictionaryModel implements java.io.Serializable{
         HashSet<String> rootSlangSet;
         HashSet<String> tempSet;
         
-        if (!wordExisted(wordArr[0])) {
+        if (!wordExists(wordArr[0])) {
             return res;
         }
         
         rootSlangSet = prediction.get(wordArr[0]);
         for (String word : wordArr) {
             if (!word.trim().equals(wordArr[0]) && !word.equals("")) {
-                if (!wordExisted(word)) {
+                if (!wordExists(word)) {
                     return res;
                 }
                 
@@ -229,13 +230,12 @@ public class DictionaryModel implements java.io.Serializable{
             return tmpList;
         }
         
-        LocalDate startDate = LocalDate.parse("2023-11-01");
+        LocalDate startDate = LocalDate.parse("2023-11-15");
         LocalDate curDate = LocalDate.now();
         
         int period = Period.between(startDate, curDate).getDays();
         if (period > definition.size()) {
-            period = 0;
-            startDate = curDate;
+            period -= definition.size()*(period/definition.size());
         }
         
         List<String> keyList = new ArrayList<>(definition.keySet());

@@ -557,10 +557,15 @@ public class DictionaryView extends javax.swing.JFrame {
     }
     
     public void reloadDictionary(HashMap<String, HashSet<String>> data) {
+        slangDisplayTextField.setText("");
+        defDisplayTextArea.setText("");
+        searchTextField.setText("");
+        
         DefaultTableModel defaultTableModel = (DefaultTableModel)searchResultTable.getModel();
 
         searchResultTable.getSelectionModel().removeListSelectionListener(listener);
         defaultTableModel. setRowCount(0);
+        defaultTableModel.fireTableDataChanged();
         searchResultTable.getSelectionModel().addListSelectionListener(listener);
 
         for(String key: data.keySet()) {
@@ -568,9 +573,6 @@ public class DictionaryView extends javax.swing.JFrame {
                 defaultTableModel.addRow(new Object[] {key, def});
             }
           }
-        
-        slangDisplayTextField.setText("");
-        defDisplayTextArea.setText("");
     }
     
     public void reloadHistory(List<String> data) {
@@ -593,7 +595,7 @@ public class DictionaryView extends javax.swing.JFrame {
     
     public int getInsertDecision() {
         Object stringArray[] = { "Overwrite", "Duplicate" };
-        return javax.swing.JOptionPane.showOptionDialog(this, "Existed slang definition!", "Select an Option",
+        return javax.swing.JOptionPane.showOptionDialog(this, "Slang definition exists!", "Select an Option",
         javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null, stringArray, stringArray[0]);
     }
     
@@ -601,5 +603,4 @@ public class DictionaryView extends javax.swing.JFrame {
         slangDisplayTextField.setText(getSlangSelectedText());
         defDisplayTextArea.setText(getDefSelectedText());
     }
-
 }

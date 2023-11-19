@@ -9,13 +9,13 @@ import java.util.Random;
  * @author hoaithu842
  */
 public class QuizModel {
-    private DictionaryModel theModel;
+    private final DictionaryModel theModel;
     private String slangQuizQuestion;
     private int slangQuizSolution;
-    private List slangQuizOption;
+    private final List slangQuizOption;
     private String defQuizQuestion;
     private int defQuizSolution;
-    private List defQuizOption;
+    private final List defQuizOption;
     
     public QuizModel(DictionaryModel theModel) {
         this.theModel = theModel;
